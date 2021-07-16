@@ -1,7 +1,9 @@
-package  main
+package main
 
-import "fmt"
+import (
+	"email-center/center"
+)
 
-func main(){
-	fmt.Print("=======")
+func main() {
+	center.TaskCenter()
 }
