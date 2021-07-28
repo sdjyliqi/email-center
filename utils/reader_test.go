@@ -50,13 +50,10 @@ func TestReadEmail(t *testing.T) {
 			subject := line[len(subjectPrefix) : len(line)-1]
 			t.Log("Subject:", subject)
 			pickupInfo.Subject = subject
-
 		case strings.HasPrefix(line, msgIDPrefix):
 			msgID := line[len(msgIDPrefix) : len(line)-1]
-			t.Log("message_id:", msgID)
 			pickupInfo.MessageID = msgID
-
 		}
 	}
-	t.Log("==================", pickupInfo)
+
 }

@@ -14,6 +14,7 @@ type Body struct {
 	SendTime        string `json:"send_time" xorm:"VARCHAR(64)"`
 	From            string `json:"from" xorm:"not null VARCHAR(128)"`
 	To              string `json:"to" xorm:"not null VARCHAR(4096)"`
+	Valid           int    `json:"valid" xorm:"TINYINT(4)"`
 	Subject         string `json:"subject" xorm:"VARCHAR(256)"`
 	Category        string `json:"category" xorm:"VARCHAR(32)"`
 	ContentLanguage string `json:"content_language" xorm:"VARCHAR(16)"`
@@ -26,10 +27,10 @@ func (t Body) TableName() string {
 	return "body"
 }
 
-//NoExistedInsertItem ...插入数据库数据，前提是基于message id不存在
+//NoExistedInsertItem ...插入数据库数据，前提是基于邮件路径不存在
 func (t *Body) NoExistedInsertItem(item *utils.Email) error {
 	var emailItem = Body{}
-	ok, err := utils.GetMysqlClient().Where("message_id=?", item.MessageID).Get(&emailItem)
+	ok, err := utils.GetMysqlClient().Where("file_name=?", item.FileName).Get(&emailItem)
 	if err != nil {
 		glog.Errorf("Get item by message_id %s from table %s failed,err:%+v", item.MessageID, t.TableName(), err)
 		return err
@@ -45,9 +46,10 @@ func (t *Body) NoExistedInsertItem(item *utils.Email) error {
 			Category:        item.Category,
 			ContentLanguage: "",
 			MessageId:       item.MessageID,
-			ContentLength:   0,
+			ContentLength:   len(item.ContentBody),
 			Body:            item.ContentBody,
 			SendTime:        item.Date,
+			Valid:           int(item.Valid),
 		}
 		_, err = utils.GetMysqlClient().Insert(newItem)
 		if err != nil {

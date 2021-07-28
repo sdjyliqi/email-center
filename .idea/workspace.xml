@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/utils/encrypt.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/encrypt_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/load_files.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/load_files.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/task_center.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/task_center.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/extracting.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/extracting_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/mysql.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/reader.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/reader_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/reader_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +63,7 @@
       <recent name="D:\gowork\src\email-center\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.Test_Base64 in email-center/utils">
+  <component name="RunManager" selected="Go Test.TestTaskCenter in email-center/center (1)">
     <configuration name="TestTaskCenter in email-center/center (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$/center" />
@@ -126,9 +126,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestTaskCenter in email-center/center (1)" />
         <item itemvalue="Go Test.Test_Base64 in email-center/utils" />
         <item itemvalue="Go Test.Test_GetFileNames in email-center/utils" />
-        <item itemvalue="Go Test.TestTaskCenter in email-center/center (1)" />
         <item itemvalue="Go Test.Test_GetVX in email-center/utils" />
         <item itemvalue="Go Test.Test_GetQQ in email-center/utils" />
       </list>

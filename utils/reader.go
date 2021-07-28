@@ -9,16 +9,17 @@ import (
 )
 
 type Email struct {
-	From            string //发件人
-	To              string //收件人
-	Subject         string //邮件主题
-	Date            string //发生时间
-	MessageID       string //消息id
-	ContentLanguage string //消息语言类型
-	ContentBody     string //邮件正文
-	Category        string //邮件分类
-	FileName        string //邮件文件路径
-	Encoding        string //邮件正文编码
+	From            string   //发件人
+	To              string   //收件人
+	Subject         string   //邮件主题
+	Date            string   //发生时间
+	MessageID       string   //消息id
+	ContentLanguage string   //消息语言类型
+	ContentBody     string   //邮件正文
+	Category        string   //邮件分类
+	FileName        string   //邮件文件路径
+	Encoding        string   //邮件正文编码
+	Valid           LegalTag //邮件合法标记
 }
 
 func GetFileNames(path, dot string) ([]string, error) {
@@ -55,7 +56,7 @@ func ReadEmail(path string) ([]byte, error) {
 	return contents, err
 }
 
-func PickupEmail(path string) (*Email, error) {
+func PickupEmail(path string, validTag LegalTag) (*Email, error) {
 	fmt.Println("----------PickupEmail start------------------")
 	fromPrefix, toPrefix, msgIDPrefix, subjectPrefix, encodePrefix := "From:", "To:", "Message-ID:<", "Subject:", "Content-Transfer-Encoding:"
 	pickupInfo := &Email{}
@@ -113,8 +114,11 @@ func PickupEmail(path string) (*Email, error) {
 			pickupInfo.Encoding = encoding
 		}
 	}
-	if pickupInfo.Encoding == "" {
-
+	if pickupInfo.Encoding == "base64" {
+		decodeContent, err := DecodingBase64(pickupInfo.ContentBody)
+		if err == nil {
+			pickupInfo.ContentBody = decodeContent
+		}
 	}
 	aaa, _ := json.Marshal(pickupInfo)
 	fmt.Println("----------PickupEmail end------------------", string(aaa))
