@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/golang/glog"
 	"io/ioutil"
@@ -17,6 +18,7 @@ type Email struct {
 	ContentBody     string //邮件正文
 	Category        string //邮件分类
 	FileName        string //邮件文件路径
+	Encoding        string //邮件正文编码
 }
 
 func GetFileNames(path, dot string) ([]string, error) {
@@ -54,34 +56,48 @@ func ReadEmail(path string) ([]byte, error) {
 }
 
 func PickupEmail(path string) (*Email, error) {
-	fromPrefix, toPrefix, msgIDPrefix, subjectPrefix := "From: <", "To: <", "Message-ID: <", "Subject:"
+	fmt.Println("----------PickupEmail start------------------")
+	fromPrefix, toPrefix, msgIDPrefix, subjectPrefix, encodePrefix := "From:", "To:", "Message-ID:<", "Subject:", "Content-Transfer-Encoding:"
 	pickupInfo := &Email{}
 	content, err := ReadEmail(path)
 	if err != nil {
 		return nil, err
 	}
 	idx := strings.Index(string(content), "\r\n\r")
-
 	header := string(content)[0:idx]
-
 	body := string(content)[idx:len(string(content))]
 	pickupInfo.ContentBody = body
 
 	info := strings.Split(header, "\r")
 
 	for _, v := range info {
-		line := strings.Trim(v, " ")
+		line := strings.Replace(v, " ", "", -1)
 		line = strings.ReplaceAll(line, "\n", "")
-		//t.Log(k,line)
 		switch {
 		case strings.HasPrefix(line, fromPrefix):
-			from := line[len(fromPrefix) : len(line)-1]
-			pickupInfo.From = from
+			//优先提取<>中内内容，如果没有直接获取全部内容
+			start := strings.Index(line, "<")
+			stop := strings.Index(line, ">")
+			if start >= 0 && start < stop {
+				from := line[start+1 : stop]
+				pickupInfo.From = from
+			} else {
+				from := line[len(toPrefix)+1:]
+				pickupInfo.From = from
+			}
 		case strings.HasPrefix(line, toPrefix):
-			to := line[len(toPrefix) : len(line)-1]
-			pickupInfo.To = to
+			//提取<>中内内容,如果没有直接获取全部内容
+			start := strings.Index(line, "<")
+			stop := strings.Index(line, ">")
+			if start >= 0 && start < stop {
+				to := line[start+1 : stop]
+				pickupInfo.To = to
+			} else {
+				to := line[len(toPrefix)+1:]
+				pickupInfo.To = to
+			}
 		case strings.HasPrefix(line, "Date:"):
-			sendTime := line[:len(line)-1]
+			sendTime := line[len("Date:"):]
 			pickupInfo.Date = sendTime
 		case strings.HasPrefix(line, subjectPrefix):
 			subject := line[len(subjectPrefix) : len(line)-1]
@@ -90,8 +106,17 @@ func PickupEmail(path string) (*Email, error) {
 		case strings.HasPrefix(line, msgIDPrefix):
 			msgID := line[len(msgIDPrefix) : len(line)-1]
 			pickupInfo.MessageID = msgID
-
+		//处理邮件正文编码
+		case strings.HasPrefix(line, encodePrefix):
+			encoding := line[len(encodePrefix):]
+			fmt.Println("------------encoding-----------------------", encoding)
+			pickupInfo.Encoding = encoding
 		}
 	}
+	if pickupInfo.Encoding == "" {
+
+	}
+	aaa, _ := json.Marshal(pickupInfo)
+	fmt.Println("----------PickupEmail end------------------", string(aaa))
 	return pickupInfo, err
 }

@@ -4,9 +4,11 @@ package center
 func TaskCenter() {
 	task := CreateLoadEmailBody()
 	homes := []EmailFile{{
-		path: "D:\\gowork\\src\\email-center\\data\\金融诈骗",
-		name: "金融",
+		path: "D:\\gowork\\src\\email-center\\data\\发票类\\异常",
+		name: "发票类",
+		tag:  InvalidTag,
 	}}
+
 	task.SetDataPath(homes)
 	task.ReadEmailData()
 }

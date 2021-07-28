@@ -46,7 +46,7 @@ func GetQQ(content string) []string {
 //GetQQ ...获取QQ号
 func GetVX(content string) []string {
 	var veixinIDs []string
-	var qqFormat = "(vx|vx:|vx：|微信|微信:|微信：)[a-z0-9-_]{5,64}"
+	var qqFormat = "(加v:|加v|vx|vx:|vx：|微信|微信:|微信：)[a-z0-9-_]{5,64}"
 	formatRegx := regexp.MustCompile(qqFormat)
 	values := formatRegx.FindAllStringSubmatch(strings.ToLower(content), -1)
 	for _, v := range values {
