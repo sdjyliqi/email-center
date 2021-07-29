@@ -74,3 +74,24 @@ func ExtractWebDomain(txt string) ([]string, bool) {
 	}
 	return domains, true
 }
+
+//ExtractMPhone ..提取手机号
+func ExtractMobilePhone(txt string) (string, bool) {
+	txt = strings.Replace(txt, "-", "", -1)
+	txt = strings.Replace(txt, "+86", "", -1)
+	phoneRegx := regexp.MustCompile(PhoneFormat)
+	phoneNums := phoneRegx.FindStringSubmatch(txt)
+	if len(phoneNums) > 1 {
+		return phoneNums[0], true
+	}
+	return "", false
+}
+
+func ChkContentIsMobilePhone(txt string) bool {
+	txt = strings.Replace(txt, "+86", "", 1)
+	if len(txt) != lenMobilePhone {
+		return false
+	}
+	_, ok := ExtractMobilePhone(txt)
+	return ok
+}
