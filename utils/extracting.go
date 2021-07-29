@@ -45,12 +45,32 @@ func GetQQ(content string) []string {
 
 //GetQQ ...获取QQ号
 func GetVX(content string) []string {
-	var veixinIDs []string
+	var weixinIDs []string
 	var qqFormat = "(加v:|加v|vx|vx:|vx：|微信|微信:|微信：)[a-z0-9-_]{5,64}"
 	formatRegx := regexp.MustCompile(qqFormat)
 	values := formatRegx.FindAllStringSubmatch(strings.ToLower(content), -1)
 	for _, v := range values {
-		veixinIDs = append(veixinIDs, v[0])
+		weixinIDs = append(weixinIDs, v[0])
 	}
-	return veixinIDs
+	return weixinIDs
+}
+
+//ExtractWebDomain ..提取登录网址
+func ExtractWebDomain(txt string) ([]string, bool) {
+	txt = strings.ToLower(txt)
+	var domains []string
+	formatRegx := regexp.MustCompile(WebFormat)
+	values := formatRegx.FindAllStringSubmatch(txt, -1)
+	if len(values) == 0 {
+		return nil, false
+	}
+	for _, v := range values {
+		//todo 后续替换这个再进行优化吧
+		url := strings.Replace(v[0], "https://www.", "", 1)
+		url = strings.Replace(url, "http://www.", "", 1)
+		url = strings.Replace(url, "https://", "", 1)
+		url = strings.Replace(url, "http://", "", 1)
+		domains = append(domains, url)
+	}
+	return domains, true
 }

@@ -8,3 +8,6 @@ const (
 	ValidTag   LegalTag = 1 //合法
 	InvalidTag LegalTag = 2 //非法
 )
+
+var WebFormat = "(http|https)://[a-z0-9\\.]+"
+var shortWebFormat = "[a-z0-9\\.]{2,12}.(cn|com)"
