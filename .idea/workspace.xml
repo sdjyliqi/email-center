@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/center/task_center.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/task_center.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/task_center_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/task_center_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/reader.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +152,8 @@
     <MESSAGE value="域名提取" />
     <MESSAGE value="手机号提取" />
     <MESSAGE value="优化 body 和from的识别" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化 body 和from的识别" />
+    <MESSAGE value="继续优化body" />
+    <option name="LAST_COMMIT_MESSAGE" value="继续优化body" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
