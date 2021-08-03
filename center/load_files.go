@@ -3,6 +3,7 @@ package center
 import (
 	"email-center/model"
 	"email-center/utils"
+	"fmt"
 	"github.com/golang/glog"
 )
 
@@ -45,12 +46,24 @@ func (l *LoadEmailBody) ReadEmailData() error {
 			info.Category = v.name
 			info.FileName = vv
 			info.Valid = v.tag
-
 			err = model.BodyModel.NoExistedInsertItem(info)
 			if err != nil {
 				glog.Errorf("Call model.NoExistedInsertItem failed,err:%+v", err)
 			}
 		}
+	}
+	return nil
+}
+
+func (l *LoadEmailBody) ExtractEmailData() error {
+	items, err := model.BodyModel.GetAllItems()
+	if err != nil {
+		return err
+	}
+	for _, v := range items {
+		sender := v.From
+		senderDomain := utils.GetSenderDomain(sender)
+		fmt.Println("====", v.From, senderDomain)
 	}
 	return nil
 }

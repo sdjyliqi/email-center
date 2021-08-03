@@ -27,6 +27,18 @@ func (t Body) TableName() string {
 	return "body"
 }
 
+//GetAllItems ...
+func (t Body) GetAllItems() ([]*Body, error) {
+	var items []*Body
+
+	err := utils.GetMysqlClient().Find(&items)
+	if err != nil {
+		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
+		return nil, err
+	}
+	return items, nil
+}
+
 //NoExistedInsertItem ...插入数据库数据，前提是基于邮件路径不存在
 func (t *Body) NoExistedInsertItem(item *utils.Email) error {
 	var emailItem = Body{}

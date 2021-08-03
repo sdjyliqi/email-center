@@ -13,6 +13,14 @@ func TestGetFileNames(t *testing.T) {
 	assert.Nil(t, err)
 
 }
+
+func Test_PickupEmailBody(t *testing.T) {
+	content := "asasasas Content-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: base64\n\n77yRM+KSjuWNg++8keKSi++8r+KSjuaekO+8l+KSiu+8mO+8kQ0KJm5ic3A7DQpocmNl\nYg0K5piv4oCc5a+E5Lq64oCd55qEDQombmJzcDsNCuS9huiLj+i9vOiupOS4ug0KMDPm\nl7YzNuWIhjU056eS\n\n----boundary_587039_3b834ecb-b29f-458c-b123-de6d2ed53204\nContent-Type: text/html; charset=utf-8\nContent-Transfer-Encoding: base64\n\nPFA+77yRM+KSjuWNg++8keKSi++8r+KSjuaekO+8l+KSiu+8mO+8kTwvUD4NCjxQPiZu\nYnNwOzwvUD4NCjxQPmhyY2ViPC9QPg0KPFA+5piv4oCc5a+E5Lq64oCd55qEPC9QPg0K\nPFA+Jm5ic3A7PC9QPg0KPFA+5L2G6IuP6L286K6k5Li6PC9QPg0KPFA+MDPml7YzNuWI\nhjU056eSPC9QPg==\n----boundary_587039_3b834ecb-b29f-458c-b123-de6d2ed53204--"
+	result := PickupEmailBody(content)
+	t.Log(result)
+
+}
+
 func TestReadEmail(t *testing.T) {
 	msgIDPrefix, subjectPrefix := "Message-ID: <", "Subject:"
 	pickupInfo := Email{}

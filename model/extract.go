@@ -1,5 +1,10 @@
 package model
 
+import (
+	"email-center/utils"
+	"github.com/golang/glog"
+)
+
 type Extract struct {
 	Id           int    `json:"id" xorm:"not null pk INT(11)"`
 	SenderDomain string `json:"sender_domain" xorm:"VARCHAR(64)"`
@@ -12,4 +17,16 @@ type Extract struct {
 
 func (t Extract) TableName() string {
 	return "extract"
+}
+
+//GetAllItems ...
+func (t Extract) GetAllItems() ([]*Extract, error) {
+	var items []*Extract
+
+	err := utils.GetMysqlClient().Find(items)
+	if err != nil {
+		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
+		return nil, err
+	}
+	return items, nil
 }

@@ -13,4 +13,5 @@ func TaskCenter() {
 
 	task.SetDataPath(homes)
 	task.ReadEmailData()
+	//task.ExtractEmailData()
 }
