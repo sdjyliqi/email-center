@@ -84,13 +84,20 @@ func PickupEmailBody(content string) string {
 	idxStart := strings.Index(content, keyIndex)
 	if idxStart > 0 {
 		content = content[idxStart+len(keyIndex):]
+	} else {
+		//寻找第二标记 Content-Type: text/html; charset=utf-8
+		idxStart = strings.Index(content, "Content-Type: text/html; charset=utf-8")
+		if idxStart > 0 {
+			content = content[idxStart+len(keyIndex):]
+		}
 	}
 	//寻找结束的位置
 	idxStop := strings.Index(content, "----boundary_")
+	body = content
 	if idxStop > 0 {
 		body = content[0:idxStop]
-		body = strings.ReplaceAll(body, delIndex, "")
 	}
+	body = strings.ReplaceAll(body, delIndex, "")
 	body = strings.ReplaceAll(body, "\r\n", "")
 	body, _ = DecodingBase64(body)
 	fmt.Println(body)

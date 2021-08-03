@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/model/body_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/center/load_files.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/load_files.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/task_center.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/task_center.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/task_center_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/task_center_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/extract.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/extract.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/reader.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/reader_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/reader_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +152,8 @@
     <MESSAGE value="优化数据解析 入库部分" />
     <MESSAGE value="域名提取" />
     <MESSAGE value="手机号提取" />
-    <option name="LAST_COMMIT_MESSAGE" value="手机号提取" />
+    <MESSAGE value="优化 body 和from的识别" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化 body 和from的识别" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

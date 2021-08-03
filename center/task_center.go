@@ -6,7 +6,7 @@ import "email-center/utils"
 func TaskCenter() {
 	task := CreateLoadEmailBody()
 	homes := []EmailFile{{
-		path: "D:\\gowork\\src\\email-center\\data\\发票类\\异常",
+		path: "D:\\gowork\\src\\email-center\\data\\发票类\\异常back",
 		name: "发票类",
 		tag:  utils.InvalidTag,
 	}}
