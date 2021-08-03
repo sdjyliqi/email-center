@@ -2,8 +2,8 @@ package model
 
 import (
 	"email-center/utils"
+	"encoding/json"
 	"github.com/golang/glog"
-	"strings"
 )
 
 var BodyModel Body
@@ -44,23 +44,27 @@ func (t *Body) NoExistedInsertItem(item *utils.Email) error {
 	var emailItem = Body{}
 	ok, err := utils.GetMysqlClient().Where("file_name=?", item.FileName).Get(&emailItem)
 	if err != nil {
-		glog.Errorf("Get item by message_id %s from table %s failed,err:%+v", item.MessageID, t.TableName(), err)
+		glog.Errorf("Get item by filename %s from table %s failed,err:%+v", item.FileName, t.TableName(), err)
 		return err
 	}
-	item.ContentBody = strings.Replace(item.ContentBody, "\r", "", -1)
-	item.ContentBody = strings.Replace(item.ContentBody, "\n", "", -1)
+	ok = false
 	if !ok {
+		fromContent, _ := json.Marshal(item.ParseEmail.From)
+		toContent, _ := json.Marshal(item.ParseEmail.To)
+		sendTime, _ := item.ParseEmail.Header.Date()
+		strSendTime := sendTime.Format(utils.TimeFormat)
+		body := item.Body
 		var newItem = Body{
 			FileName:        item.FileName,
-			From:            item.From,
-			To:              item.To,
-			Subject:         item.Subject,
+			From:            string(fromContent),
+			To:              string(toContent),
+			Subject:         item.ParseEmail.Subject,
 			Category:        item.Category,
 			ContentLanguage: "",
-			MessageId:       item.MessageID,
-			ContentLength:   len(item.ContentBody),
-			Body:            item.ContentBody,
-			SendTime:        item.Date,
+			MessageId:       item.ParseEmail.MessageID,
+			ContentLength:   len(body),
+			Body:            body,
+			SendTime:        strSendTime,
 			Valid:           int(item.Valid),
 		}
 		_, err = utils.GetMysqlClient().Insert(newItem)
