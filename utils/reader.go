@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/DusanKasan/parsemail"
 	"github.com/golang/glog"
+	"golang.org/x/text/encoding/simplifiedchinese"
 	"io/ioutil"
 	"regexp"
 	"strings"
@@ -80,20 +81,39 @@ func PickupEmail(path string, validTag LegalTag) (*Email, error) {
 	}
 	pickupInfo.ParseEmail = parseValue
 	ccc, _ := json.Marshal(parseValue)
-	fmt.Println(parseValue.Date, string(ccc))
-	encoding, ok := pickupInfo.ParseEmail.Header["Content-Transfer-Encoding"]
-	if ok && len(encoding) > 0 && encoding[0] == "base64" {
-		encodingContent := pickupInfo.ParseEmail.TextBody
-		if encodingContent == "" {
-			encodingContent = pickupInfo.ParseEmail.HTMLBody
-		}
-		decodeBody, err := DecodingBase64(encodingContent)
-		if err != nil {
-			return nil, err
-		}
-		pickupInfo.Body = decodeBody
+	fmt.Println("===========================", parseValue.Date, string(ccc))
+	encodingContent := pickupInfo.ParseEmail.TextBody
+	if encodingContent == "" {
+		encodingContent = pickupInfo.ParseEmail.HTMLBody
 	}
+	decodeBody, err := DecodingBase64(encodingContent)
+	decodeBody = strings.Replace(decodeBody, "\n", "", -1)
+	if err == nil {
+		pickupInfo.Body = decodeBody
+	} else {
+		pickupInfo.Body = encodingContent
+	}
+	//todo  晓鹏，针对gbk的需要做特殊处理，目前会乱码
+	aaaa := ConvertByte2String([]byte(encodingContent), HZGB2312)
+	fmt.Println("===============base64==============decodeBody===========", aaaa)
 	sendTime, _ := parseValue.Header.Date()
 	fmt.Println("===========", sendTime.Format(TimeFormat))
 	return pickupInfo, err
+}
+
+func ConvertByte2String(byte []byte, charset Charset) string {
+	var str string
+	switch charset {
+	case GB18030:
+		var decodeBytes, _ = simplifiedchinese.GB18030.NewDecoder().Bytes(byte)
+		str = string(decodeBytes)
+	case HZGB2312:
+		var decodeBytes, _ = simplifiedchinese.HZGB2312.NewDecoder().Bytes(byte)
+		str = string(decodeBytes)
+	case UTF8:
+		fallthrough
+	default:
+		str = string(byte)
+	}
+	return str
 }

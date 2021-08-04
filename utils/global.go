@@ -15,3 +15,11 @@ var shortWebFormat = "[a-z0-9\\.]{2,12}.(cn|com)"
 
 var PhoneFormat = "(13[0-9]|14[57]|15[0-35-9]|18[07-9])\\d{8}" //手机号码格式
 var TimeFormat = "2006-01-02 15:04:05"
+
+type Charset string
+
+const (
+	UTF8     = Charset("UTF-8")
+	GB18030  = Charset("GB18030")
+	HZGB2312 = Charset("HZGB2312")
+)
