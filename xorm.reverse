@@ -1,1 +1,0 @@
-xorm reverse mysql "root:Bit0123456789!@tcp(114.55.139.105:3306)/email-center?charset=utf8mb4" templates/goxorm
