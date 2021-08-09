@@ -4,7 +4,6 @@ import (
 	"email-center/model"
 	"email-center/utils"
 	"fmt"
-	"github.com/golang/glog"
 )
 
 type EmailFile struct {
@@ -30,40 +29,34 @@ func (l *LoadEmailBody) SetDataPath(item []EmailFile) error {
 	return nil
 }
 
-func (l *LoadEmailBody) ReadEmailData() error {
-	for _, v := range l.emailItems {
-		files, err := utils.GetFileNames(v.path, "")
-		if err != nil {
-			glog.Errorf("Call utils.GetFileNames failed,err:%+v", err)
-			return err
-		}
-		for _, vv := range files {
-			info, err := utils.PickupEmail(vv, v.tag)
-			if err != nil {
-				glog.Errorf("Call utils.PickupEmail failed,err:%+v", err)
-				return err
-			}
-			info.Category = v.name
-			info.FileName = vv
-			info.Valid = v.tag
-			err = model.BodyModel.NoExistedInsertItem(info)
-			if err != nil {
-				glog.Errorf("Call model.NoExistedInsertItem failed,err:%+v", err)
-			}
-		}
-	}
-	return nil
-}
-
 func (l *LoadEmailBody) ExtractEmailData() error {
+
 	items, err := model.BodyModel.GetAllItems()
 	if err != nil {
 		return err
 	}
 	for _, v := range items {
+		body := model.Extract{Id: v.Id}
 		sender := v.From
 		senderDomain := utils.GetSenderDomain(sender)
-		fmt.Println("====", v.From, senderDomain)
+		body.SenderDomain = senderDomain
+		weixinIDs := utils.GetVX(v.Body)
+		if len(weixinIDs) > 0 {
+			body.Weixin = weixinIDs[0]
+		}
+		qqIDs := utils.GetQQ(v.Body)
+		fmt.Println("weixin:", weixinIDs, "QQ:", qqIDs)
+		if len(qqIDs) > 0 {
+			body.Qq = qqIDs[0]
+		}
+
+		bodyURLDomains, err := utils.ExtractWebDomain(v.Body)
+		fmt.Println("======", bodyURLDomains, err)
+
+		//寻找类别关键字，
+		categoryWords := utils.CategoryACMatch.Match(v.Subject + v.Body + v.Attachments)
+		fmt.Println(categoryWords)
+		//fmt.Println("=============",categoryWords)
 	}
 	return nil
 }

@@ -34,7 +34,9 @@ func GetSenderDomain(email string) string {
 //GetQQ ...获取QQ号
 func GetQQ(content string) []string {
 	var QQIDs []string
-	var qqFormat = "(qq|qq:|qq：|扣扣|扣扣:|扣扣：)[0-9]{5,11}"
+	content = strings.Replace(content, ":", "", -1)
+	content = strings.Replace(content, "：", "", -1)
+	var qqFormat = "(qq|扣扣|抠抠)[0-9]{5,11}"
 	formatRegx := regexp.MustCompile(qqFormat)
 	values := formatRegx.FindAllStringSubmatch(strings.ToLower(content), -1)
 	for _, v := range values {
@@ -46,7 +48,7 @@ func GetQQ(content string) []string {
 //GetQQ ...获取QQ号
 func GetVX(content string) []string {
 	var weixinIDs []string
-	var qqFormat = "(加v:|加v|vx|vx:|vx：|微信|微信:|微信：)[a-z0-9-_]{5,64}"
+	var qqFormat = "(加v:|加v|\\+v：|\\+v:|vx|vx:|vx：|微信|微信:|微信：)[a-z0-9-_]{5,64}"
 	formatRegx := regexp.MustCompile(qqFormat)
 	values := formatRegx.FindAllStringSubmatch(strings.ToLower(content), -1)
 	for _, v := range values {

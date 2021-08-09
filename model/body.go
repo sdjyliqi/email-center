@@ -2,7 +2,6 @@ package model
 
 import (
 	"email-center/utils"
-	"encoding/json"
 	"github.com/golang/glog"
 )
 
@@ -20,11 +19,12 @@ type Body struct {
 	ContentLanguage string `json:"content_language" xorm:"VARCHAR(16)"`
 	MessageId       string `json:"message_id" xorm:"VARCHAR(128)"`
 	ContentLength   int    `json:"content_length" xorm:"INT(11)"`
-	Body            string `json:"body" xorm:"VARCHAR(10240)"`
+	Attachments     string `json:"attachments" xorm:"VARCHAR(1024)"`
+	Body            string `json:"body" xorm:"TEXT"`
 }
 
 func (t Body) TableName() string {
-	return "body"
+	return "body_liqi"
 }
 
 //GetAllItems ...
@@ -37,41 +37,4 @@ func (t Body) GetAllItems() ([]*Body, error) {
 		return nil, err
 	}
 	return items, nil
-}
-
-//NoExistedInsertItem ...插入数据库数据，前提是基于邮件路径不存在
-func (t *Body) NoExistedInsertItem(item *utils.Email) error {
-	var emailItem = Body{}
-	ok, err := utils.GetMysqlClient().Where("file_name=?", item.FileName).Get(&emailItem)
-	if err != nil {
-		glog.Errorf("Get item by filename %s from table %s failed,err:%+v", item.FileName, t.TableName(), err)
-		return err
-	}
-	ok = false
-	if !ok {
-		fromContent, _ := json.Marshal(item.ParseEmail.From)
-		toContent, _ := json.Marshal(item.ParseEmail.To)
-		sendTime, _ := item.ParseEmail.Header.Date()
-		strSendTime := sendTime.Format(utils.TimeFormat)
-		body := item.Body
-		var newItem = Body{
-			FileName:        item.FileName,
-			From:            string(fromContent),
-			To:              string(toContent),
-			Subject:         item.ParseEmail.Subject,
-			Category:        item.Category,
-			ContentLanguage: "",
-			MessageId:       item.ParseEmail.MessageID,
-			ContentLength:   len(body),
-			Body:            body,
-			SendTime:        strSendTime,
-			Valid:           int(item.Valid),
-		}
-		_, err = utils.GetMysqlClient().Insert(newItem)
-		if err != nil {
-			glog.Errorf("Insert the to table %s failed,err:%+v", t.TableName(), err)
-			return err
-		}
-	}
-	return nil
 }

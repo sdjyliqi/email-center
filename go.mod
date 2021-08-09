@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/DusanKasan/parsemail v1.2.0 // indirect
+	github.com/gansidui/ahocorasick v0.0.0-20141022153900-5a4d7fb3524f // indirect
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/go-xorm/xorm v0.7.9
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b

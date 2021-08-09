@@ -33,6 +33,23 @@ func Test_GetVX(t *testing.T) {
 	t.Log(result)
 }
 
+func Test_GetQQ(t *testing.T) {
+	content := "<html><body>+V：w13774336437   qq63123988</body></html>"
+	result := GetQQ(content)
+	assert.Equal(t, 1, len(result))
+	t.Log(result)
+
+	content = "加v:361212981，"
+	result = GetQQ(content)
+	assert.Equal(t, 0, len(result))
+	t.Log(result)
+
+	content = "<html><body>qq:361111888,+V：w13774336437   qq63123988</body></html>"
+	result = GetQQ(content)
+	assert.Equal(t, 2, len(result))
+	t.Log(result)
+}
+
 func Test_ExtractWebDomain(t *testing.T) {
 	content := "美方在病毒溯源上“带节奏”极不负责,https://www.163.com/dy/article/GFS69GVG05346RC6.html,开具发票登录https://www.jd.com/?d"
 	expect := []string{"163.com", "jd.com"}
