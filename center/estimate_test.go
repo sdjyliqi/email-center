@@ -20,6 +20,9 @@ func Test_Estimate(t *testing.T) {
 }
 
 func Test_AmendSubject(t *testing.T) {
+	var err error
+	estTest, err = CreateEstimate()
+	assert.Nil(t, err)
 	subject := "开发（piao）  ﹠開﹠发﹠缥﹠"
 	newSubject := estTest.AmendSubject(subject)
 	t.Log(newSubject)
