@@ -4,24 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="继续优化body">
-      <change afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/center/estimate_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/assist_character.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/ac_test.go" afterDir="false" />
+    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/center/load_files.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/load_files.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/center/task_center.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/task_center.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/center/task_center_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/task_center_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/center/estimate_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/ac.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/ac.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/extracting.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/extracting_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/init.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/reader.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/reader_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/reader_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,12 +188,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/utils/extracting_test.go</url>
-          <line>53</line>
+          <line>52</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/center/estimate.go</url>
-          <line>19</line>
+          <line>21</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

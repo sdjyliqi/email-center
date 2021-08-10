@@ -12,6 +12,7 @@ func Test_Estimate(t *testing.T) {
 	assert.Nil(t, err)
 	subject := "kai发票"
 	subject = est.AmendSubject(subject)
-	v := est.GetCategory(subject)
+	v, _ := est.GetCategory(subject)
 	t.Log(v)
+	est.AuditAllEmailItems()
 }

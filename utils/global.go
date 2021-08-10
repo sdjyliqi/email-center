@@ -35,7 +35,8 @@ var TimeFormat = "2006-01-02 15:04:05"
 
 type Charset string
 
-var keywords = map[string]LegalTag{
-	"发票":  UnknownTag,
-	"開發票": InvalidTag,
+var TagProperty = map[string]LegalTag{
+	"发票": UnknownTag,
+	"發票": InvalidTag,
+	"潑镖": InvalidTag,
 }

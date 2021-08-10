@@ -3,6 +3,7 @@ package center
 import (
 	"email-center/model"
 	"email-center/utils"
+	"fmt"
 	"strings"
 )
 
@@ -45,7 +46,33 @@ func (e estimate) AmendSubject(content string) string {
 }
 
 //GetCategory ...获取待鉴别邮件的分类
-func (e estimate) GetCategory(content string) string {
+func (e estimate) GetCategory(content string) (utils.Category, string) {
 	content = e.AmendSubject(content)
-	return utils.GetCategoryIdx(content).Name()
+	return utils.GetCategoryIdx(content)
+}
+
+//GetCategory ...获取待鉴别邮件的分类
+func (e estimate) AuditAllEmailItems() error {
+	items, err := model.BodyModel.GetAllItems()
+	if err != nil {
+		return nil
+	}
+	for _, v := range items {
+		//先计算其分类，然后更新到数据库中，后续可以比较了存入数据的分类是否和计算的分类一致。
+		partition, tag := e.GetCategory(v.Subject)
+		v.Partition = partition.Name()
+		err = model.BodyModel.UpdateItemCols(v, []string{"partition"})
+		if err != nil {
+			return err
+		}
+		//根据提取出的数据判断真假,首先通过预先定义的标签映射表，判断是否非法的类型
+		fmt.Println(tag)
+		val, ok := utils.TagProperty[tag]
+		if ok && val == utils.InvalidTag {
+
+			continue
+		}
+
+	}
+	return nil
 }
