@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/model/assist_character_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/estimate_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/assist_character.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/assist_character.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +86,7 @@
       <recent name="D:\gowork\src\email-center\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestBody_AssistCharacterGetAllItems in email-center/model">
+  <component name="RunManager" selected="Go Test.Test_Estimate in email-center/center (1)">
     <configuration name="TestBody_AssistCharacterGetAllItems in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$/model" />
@@ -149,9 +149,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestBody_AssistCharacterGetAllItems in email-center/model" />
-        <item itemvalue="Go Test.Test_AmendSubject in email-center/center" />
         <item itemvalue="Go Test.Test_Estimate in email-center/center (1)" />
+        <item itemvalue="Go Test.Test_AmendSubject in email-center/center" />
+        <item itemvalue="Go Test.TestBody_AssistCharacterGetAllItems in email-center/model" />
         <item itemvalue="Go Test.Test_Estimate in email-center/center" />
         <item itemvalue="Go Test.Test_InitURLDomainAC in email-center/utils (1)" />
       </list>

@@ -38,17 +38,19 @@ func CreateEstimate() (*estimate, error) {
 
 //AmendSubject ...修正标题,剔除一些无用的字符
 func (e estimate) AmendSubject(content string) string {
-	//var charBox:=[]rune{}
-	amendSubject := strings.ReplaceAll(content, " ", "")
-	//chars:= []rune(content)
-	//for _,v:= range chars {
-	//	if v>''
-	//}
-	for _, v := range e.assistCharacter {
-		fmt.Println("del char:", v)
-		amendSubject = strings.ReplaceAll(amendSubject, v, "")
+	var amendChars []rune
+	chars := []rune(content)
+	for _, v := range chars {
+		if v < 'A' || v > 'z' && v <= 255 {
+			continue
+		}
+		amendChars = append(amendChars, v)
 	}
-	return amendSubject
+	newSubject := string(amendChars)
+	for _, v := range e.assistCharacter {
+		newSubject = strings.ReplaceAll(newSubject, v, "")
+	}
+	return newSubject
 }
 
 //GetCategory ...获取待鉴别邮件的分类

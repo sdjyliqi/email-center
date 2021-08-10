@@ -12,10 +12,6 @@ func Test_Estimate(t *testing.T) {
 	var err error
 	estTest, err = CreateEstimate()
 	assert.Nil(t, err)
-	subject := "kai发票"
-	subject = estTest.AmendSubject(subject)
-	v, _ := estTest.GetCategory(subject)
-	t.Log(v)
 	estTest.AuditAllEmailItems()
 }
 
@@ -24,7 +20,6 @@ func Test_AmendSubject(t *testing.T) {
 	estTest, err = CreateEstimate()
 	assert.Nil(t, err)
 	subject := "@#$%^开发  （piao）!~  ﹠開﹠发﹠缥﹠"
-
 	amendChars := []rune{}
 	chars := []rune(subject)
 	for _, v := range chars {
