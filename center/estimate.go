@@ -38,7 +38,7 @@ func CreateEstimate() (*estimate, error) {
 
 //AmendSubject ...修正标题,剔除一些无用的字符
 func (e estimate) AmendSubject(content string) string {
-	amendSubject := content
+	amendSubject := strings.ReplaceAll(content, " ", "")
 	for _, v := range e.assistCharacter {
 		amendSubject = strings.ReplaceAll(content, v, "")
 	}
@@ -47,8 +47,9 @@ func (e estimate) AmendSubject(content string) string {
 
 //GetCategory ...获取待鉴别邮件的分类
 func (e estimate) GetCategory(content string) (utils.Category, string) {
-	content = e.AmendSubject(content)
-	return utils.GetCategoryIdx(content)
+	newSubject := e.AmendSubject(content)
+	fmt.Println("====subject after amend:", content, newSubject)
+	return utils.GetCategoryIdx(newSubject)
 }
 
 //GetCategory ...获取待鉴别邮件的分类

@@ -9,7 +9,9 @@ var DomainACMatch *ahocorasick.Matcher
 var CategoryACMatch *ahocorasick.Matcher
 
 var URLDomains = []string{"jd.com", "dangdang.com", "cebbank.com", "suning.com"}
-var billCategoryWords = []string{"发票", "fa票", "潑镖", "發票"}
+
+//billCategoryWords ...广告相关分类的关键字
+var billCategoryWords = []string{}
 var advsCategoryWords = []string{"充值送礼", "优惠券"}
 var categoryBox = map[string]Category{}
 var AllCategoryWords = []string{}
@@ -36,6 +38,7 @@ func GetCategoryIdx(idx string) (Category, string) {
 //InitCategoryWordsAC ...构建分类的自动机
 func InitCategoryWordsAC() {
 	//初始化所有的分类关键字列表
+
 	for _, v := range billCategoryWords {
 		categoryBox[v] = BillCategory
 	}

@@ -11,13 +11,15 @@ var BodyModel Body
 type Body struct {
 	Id              int    `json:"id" xorm:"not null pk autoincr INT(11)"`
 	FileName        string `json:"file_name" xorm:"unique VARCHAR(128)"`
-	SendTime        string `json:"send_time" xorm:"VARCHAR(64)"`
 	From            string `json:"from" xorm:"not null VARCHAR(128)"`
-	To              string `json:"to" xorm:"not null VARCHAR(4096)"`
-	Valid           int    `json:"valid" xorm:"TINYINT(4)"`
+	ValidManual     int    `json:"valid_manual" xorm:"comment('录入数据时候打的标记') TINYINT(4)"`
+	ValidCalculate  int    `json:"valid_calculate" xorm:"TINYINT(4)"`
+	SendTime        string `json:"send_time" xorm:"VARCHAR(64)"`
+	To              string `json:"to" xorm:"not null VARCHAR(1024)"`
 	Subject         string `json:"subject" xorm:"VARCHAR(256)"`
 	Partition       string `json:"partition" xorm:"VARCHAR(32)"`
 	Category        string `json:"category" xorm:"VARCHAR(32)"`
+	ContentEncode   string `json:"content_encode" xorm:"VARCHAR(32)"`
 	ContentLanguage string `json:"content_language" xorm:"VARCHAR(16)"`
 	MessageId       string `json:"message_id" xorm:"VARCHAR(128)"`
 	ContentLength   int    `json:"content_length" xorm:"INT(11)"`
@@ -26,14 +28,13 @@ type Body struct {
 }
 
 func (t Body) TableName() string {
-	return "body_liqi"
+	return "body_copy"
 }
 
 //GetAllItems ...
 func (t Body) GetAllItems() ([]*Body, error) {
 	var items []*Body
-
-	err := utils.GetMysqlClient().Find(&items)
+	err := utils.GetMysqlClient().Where("`category` != `partition` ").Limit(2, 2).Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
 		return nil, err
