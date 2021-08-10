@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+var AssistCharacterModule = &AssistCharacter{}
+
 type AssistCharacter struct {
 	Id           int       `json:"id" xorm:"not null pk autoincr INT(11)"`
 	Character    string    `json:"character" xorm:"unique VARCHAR(16)"`

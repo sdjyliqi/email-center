@@ -38,9 +38,15 @@ func CreateEstimate() (*estimate, error) {
 
 //AmendSubject ...修正标题,剔除一些无用的字符
 func (e estimate) AmendSubject(content string) string {
+	//var charBox:=[]rune{}
 	amendSubject := strings.ReplaceAll(content, " ", "")
+	//chars:= []rune(content)
+	//for _,v:= range chars {
+	//	if v>''
+	//}
 	for _, v := range e.assistCharacter {
-		amendSubject = strings.ReplaceAll(content, v, "")
+		fmt.Println("del char:", v)
+		amendSubject = strings.ReplaceAll(amendSubject, v, "")
 	}
 	return amendSubject
 }
