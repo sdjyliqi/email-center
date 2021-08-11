@@ -83,6 +83,7 @@ func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.
 		return v
 	}
 	//步骤2：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
+	subjectTag = ""
 	if subjectTag != "" {
 		val, ok := utils.TagProperty[subjectTag]
 		if ok && val == utils.InvalidTag {
@@ -90,7 +91,13 @@ func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.
 		}
 	}
 	//步骤3：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
-
+	content := body.Subject + body.Body
+	amendContent := e.AmendBody(content)
+	vxIDs := utils.GetVX(amendContent)
+	qqIDs := utils.GetQQ(amendContent)
+	if len(vxIDs) > 0 || len(qqIDs) > 0 {
+		return utils.InvalidTag
+	}
 	return utils.UnknownTag
 }
 
