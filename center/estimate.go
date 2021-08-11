@@ -9,6 +9,7 @@ import (
 //判断维度是否是否为真假
 type estimate struct {
 	assistCharacter []string //设置
+	amendCharacters []*model.Amend
 	senderDomains   map[string]utils.LegalTag
 }
 
@@ -31,7 +32,17 @@ func CreateEstimate() (*estimate, error) {
 	for _, v := range domainItems {
 		domains[v.SenderName] = utils.ValidTag
 	}
-	return &estimate{assistCharacter: characters, senderDomains: domains}, nil
+	//
+	amendItems, err := model.AmendModel.GetAllItems()
+	if err != nil {
+		return nil, err
+	}
+
+	return &estimate{
+		assistCharacter: characters,
+		amendCharacters: amendItems,
+		senderDomains:   domains,
+	}, nil
 }
 
 //AmendSubject ...修正标题,剔除一些无用的字符
@@ -65,6 +76,9 @@ func (e estimate) AmendBody(content string) string {
 	for _, v := range e.assistCharacter {
 		newSubject = strings.ReplaceAll(newSubject, v, "")
 	}
+	for _, v := range e.amendCharacters {
+		newSubject = strings.ReplaceAll(newSubject, v.Raw, v.Replace)
+	}
 	return newSubject
 }
 
@@ -83,7 +97,6 @@ func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.
 		return v
 	}
 	//步骤2：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
-	subjectTag = ""
 	if subjectTag != "" {
 		val, ok := utils.TagProperty[subjectTag]
 		if ok && val == utils.InvalidTag {
