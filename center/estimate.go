@@ -51,6 +51,23 @@ func (e estimate) AmendSubject(content string) string {
 	return newSubject
 }
 
+//AmendBody ...修正邮件正文
+func (e estimate) AmendBody(content string) string {
+	var amendChars []rune
+	chars := []rune(content)
+	for _, v := range chars {
+		if v < '0' || v > 'z' && v <= 255 {
+			continue
+		}
+		amendChars = append(amendChars, v)
+	}
+	newSubject := string(amendChars)
+	for _, v := range e.assistCharacter {
+		newSubject = strings.ReplaceAll(newSubject, v, "")
+	}
+	return newSubject
+}
+
 //GetCategory ...获取待鉴别邮件的分类
 func (e estimate) GetCategory(content string) (utils.Category, string) {
 	newSubject := e.AmendSubject(content)
@@ -59,20 +76,21 @@ func (e estimate) GetCategory(content string) (utils.Category, string) {
 
 //AuditEmailLegality ...基于解析内容判断邮件是否合法
 func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.LegalTag {
-	//步骤1：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
+	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
+	senderDomain := utils.GetSenderDomain(body.From)
+	v, ok := e.senderDomains[senderDomain]
+	if ok {
+		return v
+	}
+	//步骤2：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
 	if subjectTag != "" {
 		val, ok := utils.TagProperty[subjectTag]
 		if ok && val == utils.InvalidTag {
 			return utils.InvalidTag
 		}
 	}
-	//步骤2：通过发件者的邮件域名，如果白名单直接为合法
-	senderDomain := utils.GetSenderDomain(body.From)
-	v, ok := e.senderDomains[senderDomain]
-	if ok {
-		return v
-	}
 	//步骤3：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
+
 	return utils.UnknownTag
 }
 
