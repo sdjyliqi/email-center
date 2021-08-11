@@ -3,18 +3,16 @@ package center
 import (
 	"email-center/model"
 	"email-center/utils"
-	"fmt"
 	"strings"
 )
 
 //判断维度是否是否为真假
-
 type estimate struct {
 	assistCharacter []string //设置
 	senderDomains   map[string]utils.LegalTag
 }
 
-//CreateEstimate 创建一个鉴定实例
+// CreateEstimate ... 创建一个鉴定实例
 func CreateEstimate() (*estimate, error) {
 	var characters []string
 	domains := map[string]utils.LegalTag{}
@@ -56,11 +54,29 @@ func (e estimate) AmendSubject(content string) string {
 //GetCategory ...获取待鉴别邮件的分类
 func (e estimate) GetCategory(content string) (utils.Category, string) {
 	newSubject := e.AmendSubject(content)
-	fmt.Println("====subject after amend:", content, newSubject)
 	return utils.GetCategoryIdx(newSubject)
 }
 
-//GetCategory ...获取待鉴别邮件的分类
+//AuditEmailLegality ...基于解析内容判断邮件是否合法
+func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.LegalTag {
+	//步骤1：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
+	if subjectTag != "" {
+		val, ok := utils.TagProperty[subjectTag]
+		if ok && val == utils.InvalidTag {
+			return utils.InvalidTag
+		}
+	}
+	//步骤2：通过发件者的邮件域名，如果白名单直接为合法
+	senderDomain := utils.GetSenderDomain(body.From)
+	v, ok := e.senderDomains[senderDomain]
+	if ok {
+		return v
+	}
+	//步骤3：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
+	return utils.UnknownTag
+}
+
+// AuditAllEmailItems  ...获取待鉴别邮件的分类
 func (e estimate) AuditAllEmailItems() error {
 	items, err := model.BodyModel.GetAllItems()
 	if err != nil {
@@ -74,12 +90,11 @@ func (e estimate) AuditAllEmailItems() error {
 		if err != nil {
 			return err
 		}
-		//根据提取出的数据判断真假,首先通过预先定义的标签映射表，判断是否非法的类型
-		fmt.Println(tag)
-		val, ok := utils.TagProperty[tag]
-		if ok && val == utils.InvalidTag {
-
-			continue
+		//计算邮件是否异常
+		v.ValidCalculate = e.AuditEmailLegality(v, tag)
+		err = model.BodyModel.UpdateItemCols(v, []string{"valid_calculate"})
+		if err != nil {
+			return err
 		}
 
 	}

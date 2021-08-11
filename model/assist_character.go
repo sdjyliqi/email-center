@@ -22,7 +22,6 @@ func (t AssistCharacter) TableName() string {
 // GetAllItems 获取全量的辅助字符，加工初始串
 func (t AssistCharacter) GetAllItems() ([]*AssistCharacter, error) {
 	var items []*AssistCharacter
-
 	err := utils.GetMysqlClient().Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
