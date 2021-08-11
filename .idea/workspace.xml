@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/utils/autosend.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/autosend_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/ac_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/ac_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
-    </list>
+    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -184,7 +177,8 @@
     <MESSAGE value="继续优化body" />
     <MESSAGE value="UT" />
     <MESSAGE value="判断邮件是否异常" />
-    <option name="LAST_COMMIT_MESSAGE" value="判断邮件是否异常" />
+    <MESSAGE value="增加一个自动外网发送邮件的" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加一个自动外网发送邮件的" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
