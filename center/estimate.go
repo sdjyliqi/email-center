@@ -111,6 +111,9 @@ func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.
 	if len(vxIDs) > 0 || len(qqIDs) > 0 {
 		return utils.InvalidTag
 	}
+	//第四步骤：判断正文中是否包括知名企业的域名，如JD.com,cebbank.com，就判断为合法
+
+	//第六步骤：提取标题中包括
 	return utils.UnknownTag
 }
 
