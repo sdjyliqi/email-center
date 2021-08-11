@@ -10,7 +10,7 @@ import (
 type estimate struct {
 	assistCharacter []string //设置
 	amendCharacters []*model.Amend
-	senderDomains   map[string]utils.LegalTag
+	domainWhite     map[string]utils.LegalTag
 }
 
 // CreateEstimate ... 创建一个鉴定实例
@@ -28,9 +28,9 @@ func CreateEstimate() (*estimate, error) {
 	if err != nil {
 		return nil, err
 	}
-	//目前数据均是白名单，即合法数据
+	//初始化域名白名单，即合法数据
 	for _, v := range domainItems {
-		domains[v.SenderName] = utils.ValidTag
+		domains[v.Official] = utils.ValidTag
 	}
 	//
 	amendItems, err := model.AmendModel.GetAllItems()
@@ -41,7 +41,7 @@ func CreateEstimate() (*estimate, error) {
 	return &estimate{
 		assistCharacter: characters,
 		amendCharacters: amendItems,
-		senderDomains:   domains,
+		domainWhite:     map[string]utils.LegalTag{},
 	}, nil
 }
 
@@ -92,7 +92,7 @@ func (e estimate) GetCategory(content string) (utils.Category, string) {
 func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
 	senderDomain := utils.GetSenderDomain(body.From)
-	v, ok := e.senderDomains[senderDomain]
+	v, ok := e.domainWhite[senderDomain]
 	if ok {
 		return v
 	}

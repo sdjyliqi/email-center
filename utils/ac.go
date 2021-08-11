@@ -38,7 +38,6 @@ func GetCategoryIdx(idx string) (Category, string) {
 //InitCategoryWordsAC ...构建分类的自动机
 func InitCategoryWordsAC() {
 	//初始化所有的分类关键字列表
-
 	for _, v := range billCategoryWords {
 		categoryBox[v] = BillCategory
 	}

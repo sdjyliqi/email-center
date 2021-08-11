@@ -5,11 +5,13 @@ import (
 	"github.com/golang/glog"
 )
 
+var DomainModel = Domain{}
+
 type Domain struct {
-	Id                 int    `json:"id" xorm:"not null pk autoincr comment('域名白名单自增id') INT(11)"`
-	SenderEmail        string `json:"sender_email" xorm:"not null comment('发件人邮箱后缀') VARCHAR(64)"`
-	SenderAbbreviation string `json:"sender_abbreviation" xorm:"not null comment('发件人邮箱简称') VARCHAR(32)"`
-	SenderName         string `json:"sender_name" xorm:"comment('发件人公司名') VARCHAR(64)"`
+	Id       int    `json:"id" xorm:"not null pk autoincr comment('域名白名单自增id') INT(11)"`
+	Suffix   string `json:"suffix" xorm:"not null comment('发件人邮箱后缀') unique VARCHAR(32)"`
+	Name     string `json:"name" xorm:"not null comment('发件人邮箱简称') VARCHAR(32)"`
+	Official string `json:"official" xorm:"comment('发件人公司名') VARCHAR(16)"`
 }
 
 func (t Domain) TableName() string {
