@@ -17,6 +17,6 @@ func Test_InitURLDomainAC(t *testing.T) {
 	t.Log(tags)
 }
 func Test_GetCategoryIdx(t *testing.T) {
-	result := GetCategoryIdx("发票，电子发票。kai发票")
+	result, _ := GetCategoryIdx("发票，电子发票。kai发票")
 	t.Log(result)
 }
