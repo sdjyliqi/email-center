@@ -1,4 +1,4 @@
-package utils
+package ac
 
 import (
 	"testing"
@@ -18,5 +18,10 @@ func Test_InitURLDomainAC(t *testing.T) {
 }
 func Test_GetCategoryIdx(t *testing.T) {
 	result, _ := GetCategoryIdx("发票，电子发票。kai发票")
+	t.Log(result)
+}
+
+func Test_IGetWhiteHighlights(t *testing.T) {
+	result := GetWhiteHighlights("登录jd.com,官方客服电话950618")
 	t.Log(result)
 }

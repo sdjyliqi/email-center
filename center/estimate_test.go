@@ -15,6 +15,7 @@ func Test_Estimate(t *testing.T) {
 	estTest.AuditAllEmailItems()
 }
 
+//SELECT * from body WHERE valid_calculate != valid_manual
 func Test_AmendSubject(t *testing.T) {
 	//var err error
 	//estTest, err = CreateEstimate()

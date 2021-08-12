@@ -27,8 +27,12 @@ func Test_GetVX(t *testing.T) {
 	content := "Vx:361212981你好1212，他的微信:sdjyliqi"
 	result := GetVX(content)
 	t.Log(result)
+	//
+	//content = "加v:361212981，"
+	//result = GetVX(content)
+	//t.Log(result)
 
-	content = "加v:361212981，"
+	content = "1212asvx3612129as-81"
 	result = GetVX(content)
 	t.Log(result)
 }

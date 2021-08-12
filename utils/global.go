@@ -958,6 +958,7 @@ var TagProperty = map[string]LegalTag{
 	"磳值票":       InvalidTag,
 	"磳徝票":       InvalidTag,
 	"磳値票":       InvalidTag,
+	"増値票":       InvalidTag,
 	"禾兑":        InvalidTag,
 	"真票":        InvalidTag,
 	"稅piao":     InvalidTag,

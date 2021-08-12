@@ -20,3 +20,15 @@ func (s StringSlice) Swap(i, j int) {
 	s[i] = s[j]
 	s[j] = temp
 }
+
+func DelDigitalInString(s string) string {
+	var amendChars []rune
+	chars := []rune(s)
+	for _, v := range chars {
+		if v >= '0' && v <= '9' {
+			continue
+		}
+		amendChars = append(amendChars, v)
+	}
+	return string(amendChars)
+}

@@ -8,10 +8,12 @@ import (
 var DomainModel = Domain{}
 
 type Domain struct {
-	Id       int    `json:"id" xorm:"not null pk autoincr comment('域名白名单自增id') INT(11)"`
-	Suffix   string `json:"suffix" xorm:"not null comment('发件人邮箱后缀') unique VARCHAR(32)"`
-	Name     string `json:"name" xorm:"not null comment('发件人邮箱简称') VARCHAR(32)"`
-	Official string `json:"official" xorm:"comment('发件人公司名') VARCHAR(16)"`
+	Id         int    `json:"id" xorm:"not null pk autoincr comment('域名白名单自增id') INT(11)"`
+	Suffix     string `json:"suffix" xorm:"not null comment('发件人邮箱后缀') unique VARCHAR(32)"`
+	Name       string `json:"name" xorm:"not null comment('发件人邮箱简称') VARCHAR(32)"`
+	Hotline    string `json:"hotline" xorm:"default '' comment('客服电话，英文','分割') VARCHAR(256)"`
+	Highlights string `json:"highlights" xorm:"default '' VARCHAR(256)"`
+	Official   string `json:"official" xorm:"comment('发件人公司名') VARCHAR(64)"`
 }
 
 func (t Domain) TableName() string {
