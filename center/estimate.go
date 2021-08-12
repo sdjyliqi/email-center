@@ -50,7 +50,7 @@ func (e estimate) AmendSubject(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
-		if v < 'A' || v > 'z' && v <= 255 {
+		if v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 {
 			continue
 		}
 		amendChars = append(amendChars, v)
@@ -67,7 +67,7 @@ func (e estimate) AmendBody(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
-		if v < '0' || v > 'z' && v <= 255 {
+		if v < '0' || v > '9' && v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 {
 			continue
 		}
 		amendChars = append(amendChars, v)
