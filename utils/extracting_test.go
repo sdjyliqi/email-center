@@ -24,7 +24,7 @@ func Test_GetFileNames(t *testing.T) {
 }
 
 func Test_GetVX(t *testing.T) {
-	content := "vx:361212981你好1212，他的微信:sdjyliqi"
+	content := "Vx:361212981你好1212，他的微信:sdjyliqi"
 	result := GetVX(content)
 	t.Log(result)
 

@@ -2,6 +2,7 @@ package utils
 
 import (
 	"github.com/gansidui/ahocorasick"
+	"sort"
 )
 
 //ashjashjas
@@ -24,12 +25,17 @@ func InitURLDomainAC() {
 
 //GetCategoryIdx ...获取邮件的分类索引名称,和索引词
 func GetCategoryIdx(idx string) (Category, string) {
-	tags := CategoryACMatch.Match(idx)
-	for _, v := range tags {
+	var tags StringSlice
+	idxList := CategoryACMatch.Match(idx)
+	for _, v := range idxList {
 		tag := AllCategoryWords[v]
-		result, ok := categoryBox[tag]
+		tags = append(tags, tag)
+	}
+	sort.Sort(tags)
+	for _, v := range []string(tags) {
+		result, ok := categoryBox[v]
 		if ok {
-			return result, tag
+			return result, v
 		}
 	}
 	return UnknownCategory, ""
