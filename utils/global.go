@@ -30,7 +30,7 @@ func (c Category) Name() string {
 var WebFormat = "(http|https)://[a-z0-9\\.]+"
 var shortWebFormat = "[a-z0-9\\.]{2,12}.(cn|com)"
 
-var PhoneFormat = "(13[0-9]|14[57]|15[0-35-9]|18[07-9])\\d{8}" //手机号码格式
+var PhoneFormat = "(13[0-9]|14[57]|15[0-35-9]|18[07-9])\\d{8}[^@A-Za-z]" //手机号码格式
 var TimeFormat = "2006-01-02 15:04:05"
 var SMTP163Host = "smtp.163.com:25"
 
@@ -958,6 +958,9 @@ var TagProperty = map[string]LegalTag{
 	"磳值票":       InvalidTag,
 	"磳徝票":       InvalidTag,
 	"磳値票":       InvalidTag,
+	"増zhi票":     InvalidTag,
+	"増值票":       InvalidTag,
+	"増徝票":       InvalidTag,
 	"増値票":       InvalidTag,
 	"禾兑":        InvalidTag,
 	"真票":        InvalidTag,

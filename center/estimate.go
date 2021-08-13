@@ -48,27 +48,45 @@ func CreateEstimate() (*estimate, error) {
 }
 
 //AmendSubject ...修正标题,剔除一些无用的字符
-func (e estimate) AmendSubject(content string) string {
+func (e estimate) AmendSubjectForCategory(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
-		if (v < '0') || (v > 'z' && v <= 255) || (v == '\\') {
+		if v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 {
 			continue
 		}
 		amendChars = append(amendChars, v)
 	}
 	newSubject := string(amendChars)
-	fmt.Println("=======AAAAAAAAAAA=============", newSubject)
-	for _, v := range e.amendCharacters {
-		newSubject = strings.ReplaceAll(newSubject, v.Raw, v.Replace)
-	}
-	fmt.Println("======bbbbbbbbbbbbbbbbb===========", newSubject)
 	for _, v := range e.assistCharacter {
 		newSubject = strings.ReplaceAll(newSubject, v, "")
 	}
-	fmt.Println("====ccccccccccccccc=========", newSubject)
-
 	return newSubject
+}
+
+//AmendSubject ...修正标题,剔除一些无用的字符
+func (e estimate) AmendSubject(content string) string {
+	var amendChars []rune
+	chars := []rune(content)
+	for _, v := range chars {
+		if v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 {
+			continue
+		}
+		amendChars = append(amendChars, v)
+	}
+	newSubject := string(amendChars)
+	for _, v := range e.amendCharacters {
+		newSubject = strings.ReplaceAll(newSubject, v.Raw, v.Replace)
+	}
+	return newSubject
+}
+func (e estimate) AmendSubjectExtent(content string) string {
+	newSubject := content
+	for _, v := range e.amendCharacters {
+		newSubject = strings.ReplaceAll(newSubject, v.Raw, v.Replace)
+	}
+	return newSubject
+
 }
 
 //AmendBody ...修正邮件正文
@@ -76,20 +94,18 @@ func (e estimate) AmendBody(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
-		if v < '0' || v > 'z' && v <= 255 {
+		if v < '0' || v > '9' && v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 {
 			continue
 		}
 		amendChars = append(amendChars, v)
 	}
 	newContent := string(amendChars)
-
 	for _, v := range e.amendCharacters {
 		newContent = strings.ReplaceAll(newContent, v.Raw, v.Replace)
 	}
 	for _, v := range e.assistCharacter {
 		newContent = strings.ReplaceAll(newContent, v, "")
 	}
-
 	return newContent
 }
 
@@ -112,23 +128,21 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 	senderDomain := utils.GetSenderDomain(eml.From)
 	v, ok := e.domainWhite[senderDomain]
 	if ok {
-		fmt.Println("---------by domain-----------------")
 		return v
 	}
 	//步骤2：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
 	if subjectTag != "" {
 		val, ok := utils.TagProperty[subjectTag]
 		if ok && val == utils.InvalidTag {
-			fmt.Println("---------by 分类关键字-----------------")
 			return utils.InvalidTag
 		}
 	}
+
 	content := eml.Subject + eml.Body
 	amendContent := e.AmendBody(content)
 	//第3部：判断body中是否包括白名单数据，如jd.com 或者官方客服电话800-
 	whiteWords := ac.GetWhiteHighlights(content) //使用原始数据，不要做修正
 	if len(whiteWords) > 0 {
-		fmt.Println("=======XXXXXXXXXXXXXXX==========命中白名单词")
 		return utils.ValidTag
 	}
 
@@ -141,14 +155,15 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 	}
 	//第5步骤：body直接已某些关键字为开头的，直接判断为合法
 	if strings.HasPrefix(eml.Body, "发自我的") || strings.HasPrefix(eml.Body, "sentfrommy") {
-		fmt.Println("-------固定前缀---------------")
 		return utils.ValidTag
 	}
 	//第5步骤：判断正文中是否包括知名企业的域名，如JD.com,cebbank.com，就判断为合法
 
 	//第6步骤：如果标题中出现手机号，并且类别是发票类，直接判断为非法邮件
-	mobilePhoneIDs, _ := utils.ExtractMobilePhone(amendSubject)
-	if len(mobilePhoneIDs) > 1 {
+	aaa := e.AmendBody(eml.Subject)
+
+	mobilePhoneIDs, _ := utils.ExtractMobilePhone(aaa)
+	if len(mobilePhoneIDs) > 0 {
 		fmt.Println("----标题中有手机号--------------")
 		return utils.InvalidTag
 	}
@@ -165,8 +180,7 @@ func (e estimate) AuditAllEmailItems() error {
 	for _, v := range items {
 		v.Body = strings.ToLower(v.Body)
 		v.Subject = strings.ToLower(v.Subject)
-		amendSubject := e.AmendSubject(v.Subject)
-		fmt.Println("=====================", amendSubject)
+		amendSubject := e.AmendSubjectForCategory(v.Subject)
 		//先计算其分类，然后更新到数据库中，后续可以比较了存入数据的分类是否和计算的分类一致。
 		partition, tag := e.GetCategory(amendSubject, v.Body)
 		v.Partition = partition.Name()
