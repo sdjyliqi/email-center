@@ -149,6 +149,7 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 	//步骤4：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
 	vxIDs := utils.GetVX(amendContent)
 	qqIDs := utils.GetQQ(amendContent)
+	fmt.Println(vxIDs, qqIDs)
 	if len(vxIDs) > 0 || len(qqIDs) > 0 {
 		fmt.Println("---------by 微信 qq-----------------")
 		return utils.InvalidTag
@@ -161,7 +162,6 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 
 	//第6步骤：如果标题中出现手机号，并且类别是发票类，直接判断为非法邮件
 	aaa := e.AmendBody(eml.Subject)
-
 	mobilePhoneIDs, _ := utils.ExtractMobilePhone(aaa)
 	if len(mobilePhoneIDs) > 0 {
 		fmt.Println("----标题中有手机号--------------")

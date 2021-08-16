@@ -33,7 +33,7 @@ func (t Body) TableName() string {
 
 //GetAllItems ...
 func (t Body) GetAllItems() ([]*Body, error) {
-	var items []*Body // Where("`category` != `partition` ")..Where("id=33").
+	var items []*Body // Where("`category` != `partition` ")..Where("id=151").
 	err := utils.GetMysqlClient().Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)

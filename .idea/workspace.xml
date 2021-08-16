@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/sensitive/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sensitive/words.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/words.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/extracting.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/extracting_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="wxp" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -87,8 +89,29 @@
       <recent name="D:\gowork\src\email-center\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.Test_Estimate in email-center/center (2)">
+  <component name="RunManager" selected="Go Build.go build email-center/sensitive">
+    <configuration name="go build email-center/sensitive" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="email-center" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="email-center/sensitive" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/sensitive/main.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="Test_Estimate in email-center/center (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="email-center" />
+      <working_directory value="$PROJECT_DIR$/center" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="email-center/center" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTest_Estimate\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test_Estimate in email-center/center" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$/center" />
       <root_directory value="$PROJECT_DIR$" />
@@ -112,18 +135,6 @@
       <pattern value="^\QTest_ExtractMPhone\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_GetCategoryIdx in email-center/ac" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/ac" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="email-center/ac" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTest_GetCategoryIdx\E$" />
-      <method v="2" />
-    </configuration>
     <configuration name="Test_GetVX in email-center/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$/utils" />
@@ -136,25 +147,13 @@
       <pattern value="^\QTest_GetVX\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_IGetWhiteHighlights in email-center/ac" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/ac" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="email-center/ac" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTest_IGetWhiteHighlights\E$" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build email-center/sensitive" />
+        <item itemvalue="Go Test.Test_Estimate in email-center/center" />
         <item itemvalue="Go Test.Test_Estimate in email-center/center (2)" />
         <item itemvalue="Go Test.Test_ExtractMPhone in email-center/utils" />
         <item itemvalue="Go Test.Test_GetVX in email-center/utils" />
-        <item itemvalue="Go Test.Test_IGetWhiteHighlights in email-center/ac" />
-        <item itemvalue="Go Test.Test_GetCategoryIdx in email-center/ac" />
       </list>
     </recent_temporary>
   </component>

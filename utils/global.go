@@ -982,4 +982,6 @@ var TagProperty = map[string]LegalTag{
 	"稅僄":        InvalidTag,
 	"稅飘":        InvalidTag,
 	"办理全国业务税票":  InvalidTag,
+	"请问需要开发票":   InvalidTag,
+	"需要发票开吗":    InvalidTag,
 }
