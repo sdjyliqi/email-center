@@ -987,4 +987,5 @@ var TagProperty = map[string]LegalTag{
 	//定义广告类的关键字
 	"折优惠":   InvalidTag,
 	"开业大酬宾": InvalidTag,
+	"充值优惠":  InvalidTag,
 }

@@ -117,6 +117,33 @@ func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.
 	return utils.UnknownTag
 }
 
+//AuditAdvEmail ...判断广告类邮件是否合法
+func (e estimate) AuditAdvEmail(body *model.Body, subjectTag string) utils.LegalTag {
+	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
+	senderDomain := utils.GetSenderDomain(body.From)
+	v, ok := e.domainWhite[senderDomain]
+	if ok {
+		return v
+	}
+	//步骤2：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
+	val, ok := utils.TagProperty[subjectTag]
+	if ok && val == utils.InvalidTag {
+		return utils.InvalidTag
+	}
+	//步骤3：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
+	content := body.Subject + body.Body
+	amendContent := e.AmendBody(content)
+	vxIDs := utils.GetVX(amendContent)
+	qqIDs := utils.GetQQ(amendContent)
+	if len(vxIDs) > 0 || len(qqIDs) > 0 {
+		return utils.InvalidTag
+	}
+	//第四步骤：判断正文中是否包括知名企业的域名，如JD.com,cebbank.com，就判断为合法
+
+	//第六步骤：提取标题中包括
+	return utils.UnknownTag
+}
+
 // AuditAllEmailItems  ...获取待鉴别邮件的分类
 func (e estimate) AuditAllEmailItems() error {
 	items, err := model.BodyModel.GetAllItems()

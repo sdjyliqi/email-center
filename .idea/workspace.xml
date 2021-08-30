@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
+    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="liqi to main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ac/ac.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/ac.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -185,7 +182,8 @@
     <MESSAGE value="继续提升准确率" />
     <MESSAGE value="liqi" />
     <MESSAGE value="add db mysql" />
-    <option name="LAST_COMMIT_MESSAGE" value="add db mysql" />
+    <MESSAGE value="liqi to main" />
+    <option name="LAST_COMMIT_MESSAGE" value="liqi to main" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -207,11 +205,6 @@
           <url>file://$PROJECT_DIR$/utils/autosend_test.go</url>
           <line>11</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/center/estimate.go</url>
-          <line>181</line>
-          <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/model/body.go</url>
