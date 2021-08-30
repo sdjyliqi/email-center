@@ -1,8 +1,10 @@
 package utils
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
+	"unicode"
 )
 
 //GetSenderDomain ...获取发件者的域名信息 customer_service@jd.com
@@ -34,9 +36,10 @@ func GetSenderDomain(email string) string {
 //GetQQ ...获取QQ号
 func GetQQ(content string) []string {
 	var QQIDs []string
+	content = content + " "
 	content = strings.Replace(content, ":", "", -1)
 	content = strings.Replace(content, "：", "", -1)
-	var qqFormat = "(qq|扣扣|抠抠)[0-9]{5,11}"
+	var qqFormat = "(qq|扣扣|抠抠)[0-9]{5,11}[^@A-Za-z]"
 	formatRegx := regexp.MustCompile(qqFormat)
 	values := formatRegx.FindAllStringSubmatch(strings.ToLower(content), -1)
 	for _, v := range values {
@@ -48,10 +51,18 @@ func GetQQ(content string) []string {
 //GetQQ ...获取QQ号
 func GetVX(content string) []string {
 	var weixinIDs []string
-	var qqFormat = "(加v:|加v|\\+v：|\\+v:|vx|vx:|vx：|微信|微信:|微信：)[a-z0-9-_]{5,64}"
+	var qqFormat = "(加v:|加v|\\+v：|\\+v:|vx|vx:|vx：|微信|微信:|微信：)[a-z0-9-_]{6,64}"
 	formatRegx := regexp.MustCompile(qqFormat)
 	values := formatRegx.FindAllStringSubmatch(strings.ToLower(content), -1)
 	for _, v := range values {
+		idx := strings.Index(content, v[0])
+		fmt.Println(idx)
+		if idx > 0 {
+			formerLetter := rune(content[idx-1])
+			if unicode.IsLetter(formerLetter) {
+				continue
+			}
+		}
 		weixinIDs = append(weixinIDs, v[0])
 	}
 	return weixinIDs
@@ -78,15 +89,19 @@ func ExtractWebDomain(txt string) ([]string, bool) {
 }
 
 //ExtractMPhone ..提取手机号
-func ExtractMobilePhone(txt string) (string, bool) {
+func ExtractMobilePhone(txt string) ([]string, bool) {
+	txt = txt + " "
+	var ids []string
 	txt = strings.Replace(txt, "-", "", -1)
 	txt = strings.Replace(txt, "+86", "", -1)
 	phoneRegx := regexp.MustCompile(PhoneFormat)
-	phoneNums := phoneRegx.FindStringSubmatch(txt)
-	if len(phoneNums) > 1 {
-		return phoneNums[0], true
+	phoneNums := phoneRegx.FindAllStringSubmatch(txt, -1)
+	for _, v := range phoneNums {
+		if len(v[0]) > lenMobilePhone {
+			ids = append(ids, v[0][:lenMobilePhone])
+		}
 	}
-	return "", false
+	return ids, len(ids) > 0
 }
 
 func ChkContentIsMobilePhone(txt string) bool {

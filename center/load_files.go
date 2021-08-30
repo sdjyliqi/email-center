@@ -1,6 +1,7 @@
 package center
 
 import (
+	"email-center/ac"
 	"email-center/model"
 	"email-center/utils"
 	"fmt"
@@ -54,7 +55,7 @@ func (l *LoadEmailBody) ExtractEmailData() error {
 		fmt.Println("======", bodyURLDomains, err)
 
 		//寻找类别关键字，
-		categoryWords := utils.CategoryACMatch.Match(v.Subject + v.Body + v.Attachments)
+		categoryWords := ac.CategoryACMatch.Match(v.Subject + v.Body + v.Attachments)
 		fmt.Println(categoryWords)
 		//fmt.Println("=============",categoryWords)
 	}
