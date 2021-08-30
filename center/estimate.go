@@ -123,7 +123,21 @@ func (e estimate) GetCategory(subject, body string) (utils.Category, string) {
 }
 
 //AuditEmailLegality ...基于解析内容判断邮件是否合法
-func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag string) utils.LegalTag {
+//传入参数 eml为邮件内容结构图，amendSubject修正后的主题，通过分类的时候命中的分类标签
+func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag string, category utils.Category) utils.LegalTag {
+	switch category {
+	case utils.BillCategory:
+		return e.AuditBillEmail(eml, amendSubject, subjectTag)
+	case utils.AdvertCategory:
+		return e.AuditAdvEmail(eml, amendSubject, subjectTag)
+	default:
+		return utils.UnknownTag
+	}
+	return utils.UnknownTag
+}
+
+//AuditBillEmail ...基于解析内容判断邮件是否合法
+func (e estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
 	senderDomain := utils.GetSenderDomain(eml.From)
 	v, ok := e.domainWhite[senderDomain]
@@ -170,7 +184,7 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 }
 
 //AuditAdvEmail ...判断广告类邮件是否合法
-func (e estimate) AuditAdvEmail(body *model.Body, subjectTag string) utils.LegalTag {
+func (e estimate) AuditAdvEmail(body *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
 	senderDomain := utils.GetSenderDomain(body.From)
 	v, ok := e.domainWhite[senderDomain]
@@ -182,17 +196,12 @@ func (e estimate) AuditAdvEmail(body *model.Body, subjectTag string) utils.Legal
 	if ok && val == utils.InvalidTag {
 		return utils.InvalidTag
 	}
-	//步骤3：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
-	content := body.Subject + body.Body
-	amendContent := e.AmendBody(content)
-	vxIDs := utils.GetVX(amendContent)
-	qqIDs := utils.GetQQ(amendContent)
-	if len(vxIDs) > 0 || len(qqIDs) > 0 {
+	//步骤3：判断是否包括已入库单位的电话等信息，如果有直接为
+	customerServiceIDs := ac.GetCustomerServiceIDs(body.Body + amendSubject)
+	if len(customerServiceIDs) > 0 {
 		return utils.InvalidTag
 	}
-	//第四步骤：判断正文中是否包括知名企业的域名，如JD.com,cebbank.com，就判断为合法
-
-	//第六步骤：提取标题中包括
+	//todo步骤4，研究一下底部的正常推广邮件的特征
 	return utils.UnknownTag
 }
 
@@ -214,7 +223,7 @@ func (e estimate) AuditAllEmailItems() error {
 			return err
 		}
 		//计算邮件是否异常
-		v.ValidCalculate = int(e.AuditEmailLegality(v, amendSubject, tag))
+		v.ValidCalculate = int(e.AuditEmailLegality(v, amendSubject, tag, partition))
 		err = model.BodyModel.UpdateItemCols(v, []string{"valid_calculate"})
 		if err != nil {
 			return err

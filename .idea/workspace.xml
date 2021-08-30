@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="liqi to main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ac/ac.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/ac.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ac/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/init.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +67,7 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/testutils" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../known01" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
@@ -198,7 +199,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/center/estimate.go</url>
-          <line>22</line>
+          <line>24</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

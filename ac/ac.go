@@ -12,6 +12,7 @@ import (
 var DomainACMatch *ahocorasick.Matcher
 var CategoryACMatch *ahocorasick.Matcher
 var HighlightsACMatch *ahocorasick.Matcher
+var CustomerServiceACMatch *ahocorasick.Matcher
 
 var URLDomains = []string{"jd.com", "dangdang.com", "cebbank.com", "suning.com"}
 
@@ -21,6 +22,7 @@ var advsCategoryWords = []string{"充值送礼", "优惠券", "大酬宾", "新�
 var categoryBox = map[string]utils.Category{}
 var AllCategoryWords = []string{}
 var HighlightsWords = []string{}
+var customerServiceWords = []string{}
 
 //InitURLDomainAC ...初始化AC自动机
 func InitURLDomainAC() {
@@ -84,6 +86,31 @@ func GetWhiteHighlights(idx string) []string {
 	idxList := HighlightsACMatch.Match(idx)
 	for _, v := range idxList {
 		tag := HighlightsWords[v]
+		words = append(words, tag)
+	}
+	return words
+}
+
+//InitCustomerServiceAC ...构建官方客服电话的自动机
+func InitCustomerServiceAC() {
+	//初始化所有的官方客服电话关键字列表
+	items, _ := model.DomainModel.GetAllItems()
+	for _, v := range items {
+		if len(v.Hotline) > 1 {
+			ids := strings.Split(v.Hotline, ",")
+			customerServiceWords = append(customerServiceWords, ids...)
+		}
+	}
+	CustomerServiceACMatch = ahocorasick.NewMatcher()
+	CustomerServiceACMatch.Build(customerServiceWords)
+}
+
+//GetCustomerServiceIDs ... 利用AC自动机获取官方客服电话
+func GetCustomerServiceIDs(content string) []string {
+	var words []string
+	idxList := CustomerServiceACMatch.Match(content)
+	for _, v := range idxList {
+		tag := customerServiceWords[v]
 		words = append(words, tag)
 	}
 	return words
