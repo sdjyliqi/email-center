@@ -1,8 +1,10 @@
 package center
 
 import (
+	"email-center/ac"
 	"email-center/model"
 	"email-center/utils"
+	"fmt"
 	"strings"
 )
 
@@ -46,7 +48,7 @@ func CreateEstimate() (*estimate, error) {
 }
 
 //AmendSubject ...修正标题,剔除一些无用的字符
-func (e estimate) AmendSubject(content string) string {
+func (e estimate) AmendSubjectForCategory(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
@@ -62,6 +64,31 @@ func (e estimate) AmendSubject(content string) string {
 	return newSubject
 }
 
+//AmendSubject ...修正标题,剔除一些无用的字符
+func (e estimate) AmendSubject(content string) string {
+	var amendChars []rune
+	chars := []rune(content)
+	for _, v := range chars {
+		if v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 {
+			continue
+		}
+		amendChars = append(amendChars, v)
+	}
+	newSubject := string(amendChars)
+	for _, v := range e.amendCharacters {
+		newSubject = strings.ReplaceAll(newSubject, v.Raw, v.Replace)
+	}
+	return newSubject
+}
+func (e estimate) AmendSubjectExtent(content string) string {
+	newSubject := content
+	for _, v := range e.amendCharacters {
+		newSubject = strings.ReplaceAll(newSubject, v.Raw, v.Replace)
+	}
+	return newSubject
+
+}
+
 //AmendBody ...修正邮件正文
 func (e estimate) AmendBody(content string) string {
 	var amendChars []rune
@@ -72,26 +99,33 @@ func (e estimate) AmendBody(content string) string {
 		}
 		amendChars = append(amendChars, v)
 	}
-	newSubject := string(amendChars)
-	for _, v := range e.assistCharacter {
-		newSubject = strings.ReplaceAll(newSubject, v, "")
-	}
+	newContent := string(amendChars)
 	for _, v := range e.amendCharacters {
-		newSubject = strings.ReplaceAll(newSubject, v.Raw, v.Replace)
+		newContent = strings.ReplaceAll(newContent, v.Raw, v.Replace)
 	}
-	return newSubject
+	for _, v := range e.assistCharacter {
+		newContent = strings.ReplaceAll(newContent, v, "")
+	}
+	return newContent
 }
 
 //GetCategory ...获取待鉴别邮件的分类
-func (e estimate) GetCategory(content string) (utils.Category, string) {
-	newSubject := e.AmendSubject(content)
-	return utils.GetCategoryIdx(newSubject)
+func (e estimate) GetCategory(subject, body string) (utils.Category, string) {
+	//如果通过标题无法判断出类别，需要通过body 进行判断
+	//继续修正，需要把全部数字去除
+	subject = utils.DelDigitalInString(subject)
+	partition, tag := ac.GetCategoryIdx(subject)
+	if partition != utils.UnknownCategory {
+		return partition, tag
+	}
+	newBody := e.AmendSubject(body)
+	return ac.GetCategoryIdx(newBody)
 }
 
 //AuditEmailLegality ...基于解析内容判断邮件是否合法
-func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.LegalTag {
+func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
-	senderDomain := utils.GetSenderDomain(body.From)
+	senderDomain := utils.GetSenderDomain(eml.From)
 	v, ok := e.domainWhite[senderDomain]
 	if ok {
 		return v
@@ -103,18 +137,36 @@ func (e estimate) AuditEmailLegality(body *model.Body, subjectTag string) utils.
 			return utils.InvalidTag
 		}
 	}
-	//步骤3：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
-	content := body.Subject + body.Body
+
+	content := eml.Subject + eml.Body
 	amendContent := e.AmendBody(content)
+	//第3部：判断body中是否包括白名单数据，如jd.com 或者官方客服电话800-
+	whiteWords := ac.GetWhiteHighlights(content) //使用原始数据，不要做修正
+	if len(whiteWords) > 0 {
+		return utils.ValidTag
+	}
+
+	//步骤4：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
 	vxIDs := utils.GetVX(amendContent)
 	qqIDs := utils.GetQQ(amendContent)
+	fmt.Println(vxIDs, qqIDs)
 	if len(vxIDs) > 0 || len(qqIDs) > 0 {
+		fmt.Println("---------by 微信 qq-----------------")
 		return utils.InvalidTag
 	}
-	//第四步骤：判断正文中是否包括知名企业的域名，如JD.com,cebbank.com，就判断为合法
-
-	//第六步骤：提取标题中包括
-	return utils.UnknownTag
+	//第5步骤：body直接已某些关键字为开头的，直接判断为合法
+	if strings.HasPrefix(eml.Body, "发自我的") || strings.HasPrefix(eml.Body, "sentfrommy") {
+		return utils.ValidTag
+	}
+	//第5步骤：判断正文中是否包括知名企业的域名，如JD.com,cebbank.com，就判断为合法
+	//第6步骤：如果标题中出现手机号，并且类别是发票类，直接判断为非法邮件
+	aaa := e.AmendBody(eml.Subject)
+	mobilePhoneIDs, _ := utils.ExtractMobilePhone(aaa)
+	if len(mobilePhoneIDs) > 0 {
+		fmt.Println("----标题中有手机号--------------")
+		return utils.InvalidTag
+	}
+	return utils.ValidTag
 }
 
 // AuditAllEmailItems  ...获取待鉴别邮件的分类
@@ -124,15 +176,18 @@ func (e estimate) AuditAllEmailItems() error {
 		return nil
 	}
 	for _, v := range items {
+		v.Body = strings.ToLower(v.Body)
+		v.Subject = strings.ToLower(v.Subject)
+		amendSubject := e.AmendSubjectForCategory(v.Subject)
 		//先计算其分类，然后更新到数据库中，后续可以比较了存入数据的分类是否和计算的分类一致。
-		partition, tag := e.GetCategory(v.Subject)
+		partition, tag := e.GetCategory(amendSubject, v.Body)
 		v.Partition = partition.Name()
 		err = model.BodyModel.UpdateItemCols(v, []string{"partition"})
 		if err != nil {
 			return err
 		}
 		//计算邮件是否异常
-		v.ValidCalculate = e.AuditEmailLegality(v, tag)
+		v.ValidCalculate = int(e.AuditEmailLegality(v, amendSubject, tag))
 		err = model.BodyModel.UpdateItemCols(v, []string{"valid_calculate"})
 		if err != nil {
 			return err
