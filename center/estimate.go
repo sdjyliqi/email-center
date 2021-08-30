@@ -159,7 +159,6 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 		return utils.ValidTag
 	}
 	//第5步骤：判断正文中是否包括知名企业的域名，如JD.com,cebbank.com，就判断为合法
-
 	//第6步骤：如果标题中出现手机号，并且类别是发票类，直接判断为非法邮件
 	aaa := e.AmendBody(eml.Subject)
 	mobilePhoneIDs, _ := utils.ExtractMobilePhone(aaa)
@@ -167,7 +166,6 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 		fmt.Println("----标题中有手机号--------------")
 		return utils.InvalidTag
 	}
-
 	return utils.ValidTag
 }
 

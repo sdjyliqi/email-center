@@ -3,7 +3,6 @@ package ac
 import (
 	"email-center/model"
 	"email-center/utils"
-	"fmt"
 	"github.com/gansidui/ahocorasick"
 	"sort"
 	"strings"
@@ -18,7 +17,7 @@ var URLDomains = []string{"jd.com", "dangdang.com", "cebbank.com", "suning.com"}
 
 //billCategoryWords ...广告相关分类的关键字
 var billCategoryWords = []string{}
-var advsCategoryWords = []string{"充值送礼", "优惠券"}
+var advsCategoryWords = []string{"充值送礼", "优惠券", "大酬宾", "新店开业", "免费送", "折优惠"}
 var categoryBox = map[string]utils.Category{}
 var AllCategoryWords = []string{}
 var HighlightsWords = []string{}
@@ -76,7 +75,6 @@ func InitHighlightsAC() {
 			HighlightsWords = append(HighlightsWords, words...)
 		}
 	}
-	fmt.Println("=================", HighlightsWords)
 	HighlightsACMatch = ahocorasick.NewMatcher()
 	HighlightsACMatch.Build(HighlightsWords)
 }

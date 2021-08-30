@@ -984,4 +984,7 @@ var TagProperty = map[string]LegalTag{
 	"办理全国业务税票":  InvalidTag,
 	"请问需要开发票":   InvalidTag,
 	"需要发票开吗":    InvalidTag,
+	//定义广告类的关键字
+	"折优惠":   InvalidTag,
+	"开业大酬宾": InvalidTag,
 }
