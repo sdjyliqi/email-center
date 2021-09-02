@@ -51,13 +51,15 @@ valid_manual = args.manual
 category = args.category
 
 #建立数据库连接
-db = pymysql.connect(host='114.55.139.105',user='root',password='Bit0123456789!',\
+db = pymysql.connect(host='127.0.0.1',user='root',password='Bit0123456789!',\
                      database='email-center',charset='utf8',port=3306)
 #获取游标对象
 cursor = db.cursor()
 
 #插入数据语句
 for file_path in traverse_path(path):
+    if file_path[-4:] != ".eml":
+        continue
     char_set = "set names utf8mb4"
     cursor.execute(char_set)
     print(file_path)
@@ -87,18 +89,11 @@ for file_path in traverse_path(path):
     #email_date...  收件日期
     email_date = email_dict['header']['date']
     email_date = email_date.replace("T", " ")
-    email_date = email_date.replace("+08:00", "")
+    email_hours =  int(email_date[-4:-3])
+    email_date = email_date[:-6]
+    offset = datetime.timedelta(hours = email_hours)
+    email_date = datetime.datetime.strptime(email_date, '%Y-%m-%d %H:%M:%S')
 
-    if "+00:00" in email_date:
-        email_date = email_date.replace("+00:00", "")
-        offset = datetime.timedelta(hours=8)
-        email_date = datetime.datetime.strptime(email_date, '%Y-%m-%d %H:%M:%S')
-        email_date = email_date + offset
-    elif "+02:00" in email_date:
-        email_date = email_date.replace("+02:00", "")
-        offset = datetime.timedelta(hours=6)
-        email_date = datetime.datetime.strptime(email_date, '%Y-%m-%d %H:%M:%S')
-        email_date = email_date + offset
 #     email_date = time.strftime("%Y-%m-%d %H:%M:%S", email_date)
     #email_subject... 邮件主题
     email_subject = email_dict['header']['subject']
@@ -130,17 +125,20 @@ for file_path in traverse_path(path):
     if 'attachment' in email_dict:
         for i in email_dict['attachment']:
             email_attachment.append(i['filename'])
-    file_path = file_path.replace(path + "\\", "")
+#    file_path = file_path.replace(path + "\\", "")
     if '\\' in file_path:
         file_path = file_path.split('\\')[-1]
     else:
         file_path = file_path.split('/')[-1]
+    if len(file_path) > 128:
+        file_path = file_path[0:128]
 #     print(email_from)
 #     print(email_to)
 #     print(email_date)
 #     print(email_subject)
 #     print(email_attachment)
 #     print(email_content)
+
     if valid_manual != 1 and valid_manual != 2 and category != '':
         query = """insert into body_test (file_name, body_test.from, send_time, \
         body_test.to, subject, category, content_length, attachments, body) values \
@@ -155,7 +153,7 @@ for file_path in traverse_path(path):
         query = query%(pymysql.escape_string(str(file_path)), pymysql.escape_string(str(email_from)), email_date,\
                        pymysql.escape_string(str(email_to)), pymysql.escape_string(str(email_subject)), int(len(email_content)), \
                        pymysql.escape_string(str(email_attachment)), pymysql.escape_string(str(email_content)))
-    elif category == '' and valid_manual == 1 or valid_manual == 2:
+    elif category == '' and (valid_manual == 1 or valid_manual == 2):
         query = """insert into body_test (file_name, body_test.from, valid_manual, send_time, \
         body_test.to, subject, content_length, attachments, body) values \
         ( '%s', '%s', '%s', '%s', '%s', '%s', %d, '%s', '%s')"""
