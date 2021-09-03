@@ -34,6 +34,39 @@ var PhoneFormat = "(13[0-9]|14[57]|15[0-35-9]|18[07-9])\\d{8}[^@A-Za-z]" //手�
 var TimeFormat = "2006-01-02 15:04:05"
 var SMTP163Host = "smtp.163.com:25"
 
+//定义广告类分类关键字
+var TagADProperty = map[string]LegalTag{
+	"限时免费":  InvalidTag,
+	"直播报名":  InvalidTag,
+	"可定制内训": InvalidTag,
+	"内训请详询": InvalidTag,
+	"開催":    InvalidTag,
+	"公開":    InvalidTag,
+	"優惠":    InvalidTag,
+	"优惠":    InvalidTag,
+	"元领":    InvalidTag,
+	"開始":    InvalidTag,
+	"疯抢":    InvalidTag,
+	"1折":    InvalidTag,
+	"2折":    InvalidTag,
+	"3折":    InvalidTag,
+	"4折":    InvalidTag,
+	"5折":    InvalidTag,
+	"6折":    InvalidTag,
+	"7折":    InvalidTag,
+	"8折":    InvalidTag,
+	"9折":    InvalidTag,
+	"一折":    InvalidTag,
+	"二折":    InvalidTag,
+	"三折":    InvalidTag,
+	"四折":    InvalidTag,
+	"五折":    InvalidTag,
+	"六折":    InvalidTag,
+	"七折":    InvalidTag,
+	"八折":    InvalidTag,
+	"九折":    InvalidTag,
+}
+
 //定义发票分类的关键字，通过关键字可能会判断出是否为异常短信
 var TagProperty = map[string]LegalTag{
 	"开具发票":      UnknownTag,
