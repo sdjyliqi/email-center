@@ -33,9 +33,18 @@ var shortWebFormat = "[a-z0-9\\.]{2,12}.(cn|com)"
 var PhoneFormat = "(13[0-9]|14[57]|15[0-35-9]|18[07-9])\\d{8}[^@A-Za-z]" //手机号码格式
 var TimeFormat = "2006-01-02 15:04:05"
 var SMTP163Host = "smtp.163.com:25"
+var ADBlackWords = []string{"微信", "vx"}
 
 //定义广告类分类关键字
 var TagADProperty = map[string]LegalTag{
+	"基金":    UnknownTag,
+	"证券":    UnknownTag,
+	"期货":    UnknownTag,
+	"股票":    UnknownTag,
+	"资产管理":  UnknownTag,
+	"托管资产":  UnknownTag,
+	"保险":    UnknownTag,
+	"一条龙服务": UnknownTag,
 	"限时免费":  InvalidTag,
 	"直播报名":  InvalidTag,
 	"可定制内训": InvalidTag,
@@ -65,10 +74,17 @@ var TagADProperty = map[string]LegalTag{
 	"七折":    InvalidTag,
 	"八折":    InvalidTag,
 	"九折":    InvalidTag,
+	"会员卡":   InvalidTag,
+	"充值送礼":  InvalidTag,
+	"优惠券":   InvalidTag,
+	"大酬宾":   InvalidTag,
+	"新店开业":  InvalidTag,
+	"免费送":   InvalidTag,
+	"折优惠":   InvalidTag,
 }
 
 //定义发票分类的关键字，通过关键字可能会判断出是否为异常短信
-var TagProperty = map[string]LegalTag{
+var TagBillProperty = map[string]LegalTag{
 	"开具发票":      UnknownTag,
 	"kaifapiao": InvalidTag,
 	"kaifa票":    InvalidTag,
@@ -1017,8 +1033,4 @@ var TagProperty = map[string]LegalTag{
 	"办理全国业务税票":  InvalidTag,
 	"请问需要开发票":   InvalidTag,
 	"需要发票开吗":    InvalidTag,
-	//定义广告类的关键字
-	"折优惠":   InvalidTag,
-	"开业大酬宾": InvalidTag,
-	"充值优惠":  InvalidTag,
 }

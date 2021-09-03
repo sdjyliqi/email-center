@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="" />
+    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ac/ac.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/ac.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ac/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/init.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/domain.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/domain.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,7 +88,7 @@
       <recent name="D:\gowork\src\email-center\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build email-center">
+  <component name="RunManager" selected="Go Test.Test_Estimate in email-center/center (1)">
     <configuration name="go build email-center" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$" />
@@ -97,6 +105,18 @@
       <package value="email-center/sensitive" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/sensitive/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test_Estimate in email-center/center (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="email-center" />
+      <working_directory value="$PROJECT_DIR$/center" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="email-center/center" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTest_Estimate\E$" />
       <method v="2" />
     </configuration>
     <configuration name="Test_Estimate in email-center/center (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -123,25 +143,13 @@
       <pattern value="^\QTest_Estimate\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_ExtractMPhone in email-center/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/utils" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="email-center/utils" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTest_ExtractMPhone\E$" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.Test_Estimate in email-center/center (1)" />
         <item itemvalue="Go Build.go build email-center" />
         <item itemvalue="Go Build.go build email-center/sensitive" />
         <item itemvalue="Go Test.Test_Estimate in email-center/center" />
         <item itemvalue="Go Test.Test_Estimate in email-center/center (2)" />
-        <item itemvalue="Go Test.Test_ExtractMPhone in email-center/utils" />
       </list>
     </recent_temporary>
   </component>
@@ -192,11 +200,6 @@
           <url>file://$PROJECT_DIR$/utils/extracting_test.go</url>
           <line>56</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/center/estimate.go</url>
-          <line>24</line>
-          <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/utils/autosend_test.go</url>

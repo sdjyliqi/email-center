@@ -13,12 +13,13 @@ var DomainACMatch *ahocorasick.Matcher
 var CategoryACMatch *ahocorasick.Matcher
 var HighlightsACMatch *ahocorasick.Matcher
 var CustomerServiceACMatch *ahocorasick.Matcher
+var ADBlackWordACMatch *ahocorasick.Matcher
 
 var URLDomains = []string{"jd.com", "dangdang.com", "cebbank.com", "suning.com"}
 
 //billCategoryWords ...广告相关分类的关键字
 var billCategoryWords = []string{}
-var advsCategoryWords = []string{"充值送礼", "优惠券", "大酬宾", "新店开业", "免费送", "折优惠"}
+var advsCategoryWords = []string{}
 var categoryBox = map[string]utils.Category{}
 var AllCategoryWords = []string{}
 var HighlightsWords = []string{}
@@ -105,12 +106,29 @@ func InitCustomerServiceAC() {
 	CustomerServiceACMatch.Build(customerServiceWords)
 }
 
+//InitADBlackWordsServiceAC ...构建广告类所属的黑名单词
+func InitADBlackWordsServiceAC() {
+	ADBlackWordACMatch = ahocorasick.NewMatcher()
+	ADBlackWordACMatch.Build(utils.ADBlackWords)
+}
+
 //GetCustomerServiceIDs ... 利用AC自动机获取官方客服电话
 func GetCustomerServiceIDs(content string) []string {
 	var words []string
 	idxList := CustomerServiceACMatch.Match(content)
 	for _, v := range idxList {
 		tag := customerServiceWords[v]
+		words = append(words, tag)
+	}
+	return words
+}
+
+//GetADBlackWords ... 利用AC获取黑名单词
+func GetADBlackWords(content string) []string {
+	var words []string
+	idxList := ADBlackWordACMatch.Match(content)
+	for _, v := range idxList {
+		tag := utils.ADBlackWords[v]
 		words = append(words, tag)
 	}
 	return words

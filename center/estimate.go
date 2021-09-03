@@ -12,13 +12,15 @@ import (
 type estimate struct {
 	assistCharacter []string //设置
 	amendCharacters []*model.Amend
-	domainWhite     map[string]utils.LegalTag
+	domainBillWhite map[string]utils.LegalTag
+	domainADWhite   map[string]utils.LegalTag
 }
 
 // CreateEstimate ... 创建一个鉴定实例
 func CreateEstimate() (*estimate, error) {
 	var characters []string
-	domains := map[string]utils.LegalTag{}
+	domainsForBill := map[string]utils.LegalTag{}
+	domainsForAD := map[string]utils.LegalTag{}
 	items, err := model.AssistCharacter{}.GetAllItems()
 	if err != nil {
 		return nil, err
@@ -32,7 +34,11 @@ func CreateEstimate() (*estimate, error) {
 	}
 	//初始化域名白名单，即合法数据
 	for _, v := range domainItems {
-		domains[v.Official] = utils.ValidTag
+		//todo 默认全部域名为发票类的白名单
+		domainsForBill[v.Official] = utils.ValidTag
+		if v.AllowAd == 1 {
+			domainsForAD[v.Official] = utils.ValidTag
+		}
 	}
 	//
 	amendItems, err := model.AmendModel.GetAllItems()
@@ -43,7 +49,8 @@ func CreateEstimate() (*estimate, error) {
 	return &estimate{
 		assistCharacter: characters,
 		amendCharacters: amendItems,
-		domainWhite:     map[string]utils.LegalTag{},
+		domainBillWhite: domainsForBill,
+		domainADWhite:   domainsForAD,
 	}, nil
 }
 
@@ -140,13 +147,13 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 func (e estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
 	senderDomain := utils.GetSenderDomain(eml.From)
-	v, ok := e.domainWhite[senderDomain]
+	v, ok := e.domainBillWhite[senderDomain]
 	if ok {
 		return v
 	}
 	//步骤2：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
 	if subjectTag != "" {
-		val, ok := utils.TagProperty[subjectTag]
+		val, ok := utils.TagBillProperty[subjectTag]
 		if ok && val == utils.InvalidTag {
 			return utils.InvalidTag
 		}
@@ -184,24 +191,28 @@ func (e estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 }
 
 //AuditAdvEmail ...判断广告类邮件是否合法
-func (e estimate) AuditAdvEmail(body *model.Body, amendSubject, subjectTag string) utils.LegalTag {
+func (e estimate) AuditAdvEmail(b *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
-	senderDomain := utils.GetSenderDomain(body.From)
-	v, ok := e.domainWhite[senderDomain]
+	senderDomain := utils.GetSenderDomain(b.From)
+	v, ok := e.domainBillWhite[senderDomain]
 	if ok {
 		return v
 	}
 	//步骤2：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
-	val, ok := utils.TagProperty[subjectTag]
+	val, ok := utils.TagADProperty[subjectTag]
 	if ok && val == utils.InvalidTag {
 		return utils.InvalidTag
 	}
 	//步骤3：判断是否包括已入库单位的电话等信息，如果有直接为
-	customerServiceIDs := ac.GetCustomerServiceIDs(body.Body + amendSubject)
+	customerServiceIDs := ac.GetCustomerServiceIDs(b.Body + amendSubject)
 	if len(customerServiceIDs) > 0 {
+		return utils.ValidTag
+	}
+	//步骤4，在广告的分类下，出现微信等黑名单词，直接判断为异常状态
+	blackWords := ac.GetADBlackWords(b.Body + amendSubject)
+	if len(blackWords) > 0 {
 		return utils.InvalidTag
 	}
-	//todo步骤4，研究一下底部的正常推广邮件的特征
 	return utils.UnknownTag
 }
 
