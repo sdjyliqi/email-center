@@ -26,6 +26,7 @@ var HighlightsWords = []string{}
 var customerServiceWords = []string{}
 
 //InitURLDomainAC ...初始化AC自动机
+//todo  如果不用直接删除
 func InitURLDomainAC() {
 	DomainACMatch = ahocorasick.NewMatcher()
 	DomainACMatch.Build(URLDomains)
