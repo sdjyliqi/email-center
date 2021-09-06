@@ -59,7 +59,8 @@ func (e estimate) AmendSubjectForCategory(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
-		if v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 {
+		//v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 此处修改前的代码
+		if v < '0' || v > '9' && v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 {
 			continue
 		}
 		amendChars = append(amendChars, v)
@@ -116,12 +117,18 @@ func (e estimate) AmendBody(content string) string {
 	return newContent
 }
 
-//GetCategory ...获取待鉴别邮件的分类
-func (e estimate) GetCategory(subject, body string) (utils.Category, string) {
+//GetCategory ...获取待鉴别邮件的分类,标题、附件名、内容
+func (e estimate) GetCategory(subject, attachments, body string) (utils.Category, string) {
 	//如果通过标题无法判断出类别，需要通过body 进行判断
 	//继续修正，需要把全部数字去除
-	subject = utils.DelDigitalInString(subject)
-	partition, tag := ac.GetCategoryIdx(subject)
+	subjectNoNum := utils.DelDigitalInString(subject)
+	attachmentsNoNum := utils.DelDigitalInString(attachments)
+	partition, tag := ac.GetCategoryIdx(subjectNoNum + attachmentsNoNum)
+	if partition != utils.UnknownCategory {
+		return partition, tag
+	}
+	//因为5折，这样的数字会被去掉，导致广告类关键词遭到破坏，又因为发票类关键词比广告类准确，所以只能先去除数字判断bill类，再保留数字判断ad类
+	partition, tag = ac.GetCategoryIdx(subject + attachments)
 	if partition != utils.UnknownCategory {
 		return partition, tag
 	}
@@ -194,7 +201,7 @@ func (e estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 func (e estimate) AuditAdvEmail(b *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
 	senderDomain := utils.GetSenderDomain(b.From)
-	v, ok := e.domainBillWhite[senderDomain]
+	v, ok := e.domainADWhite[senderDomain]
 	if ok {
 		return v
 	}
@@ -225,9 +232,11 @@ func (e estimate) AuditAllEmailItems() error {
 	for _, v := range items {
 		v.Body = strings.ToLower(v.Body)
 		v.Subject = strings.ToLower(v.Subject)
+		v.Attachments = strings.ToLower(v.Attachments)
 		amendSubject := e.AmendSubjectForCategory(v.Subject)
+		amendattachments := e.AmendSubjectForCategory(v.Attachments)
 		//先计算其分类，然后更新到数据库中，后续可以比较了存入数据的分类是否和计算的分类一致。
-		partition, tag := e.GetCategory(amendSubject, v.Body)
+		partition, tag := e.GetCategory(amendSubject, amendattachments, v.Body)
 		v.Partition = partition.Name()
 		err = model.BodyModel.UpdateItemCols(v, []string{"partition"})
 		if err != nil {
