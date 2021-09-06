@@ -42,27 +42,42 @@ def html_parser (original_content):
 
 #利用argparse包，从控制台传入参数
 parser = argparse.ArgumentParser(description = '命令行中输入邮件解析所需参数')
-parser.add_argument('--path', type = str, required = True, help = '邮件所在目录(必填)')
-parser.add_argument('--manual', type = int, default = 0, help = '是否为正常邮件(可选)，如果该标签已经标记，则传入该参数；未标记，则不传。其中1为正常邮件，2为异常邮件。')
-parser.add_argument('--category', type = str, default = '', help = '邮件类别(可选)，如果邮件类别已经标记，则传入该参数；未标记，则不传')
+parser.add_argument('-a', '--path', type = str, required = True, help = '邮件所在目录(必填)')
+parser.add_argument('-m', '--manual', type = int, default = 0, help = '是否为正常邮件(可选)，如果该标签已经标记，则传入该参数；未标记，则不传。其中1为正常邮件，2为异常邮件。')
+parser.add_argument('-c', '--category', type = str, default = '', help = '邮件类别(可选)，如果邮件类别已经标记，则传入该参数；未标记，则不传')
+parser.add_argument('-t', '--table', type = str, default = 'body', help = '表名称（可选）')
+parser.add_argument('-H', '--host', type = str, default = '10.233.146.47', help = '数据库IP（可选）')
+parser.add_argument('-P', '--port', type = int, default = 16315, help = '数据库端口（可选）')
+parser.add_argument('-d', '--database', type = str, default = "email-center", help = '数据库名称（可选）')
+parser.add_argument('-u', '--user', type = str, default = 'root', help = '数据库用户名（可选）')
+parser.add_argument('-p', '--password',  type = str, default = 'Bit0123456789!', help = '数据库密码（可选）')
+
 args = parser.parse_args()
 path = args.path
 valid_manual = args.manual
 category = args.category
-
+table = args.table
+table_from = table + ".from"
+table_to = table + ".to"
 #建立数据库连接
-db = pymysql.connect(host='127.0.0.1',user='root',password='Bit0123456789!',\
-                     database='email-center',charset='utf8',port=3306)
+db = pymysql.connect(host=args.host, user=args.user, password=args.password,\
+                     database=args.database, charset='utf8', port=args.port)
 #获取游标对象
 cursor = db.cursor()
 
-#插入数据语句
+#将以.eml结尾的文件提取出来
+file_path_total = []
 for file_path in traverse_path(path):
     if file_path[-4:] != ".eml":
         continue
+    file_path_total.append(file_path)
+#插入数据语句
+for i in range(len(file_path_total)):
     char_set = "set names utf8mb4"
     cursor.execute(char_set)
-    print(file_path)
+    file_path = file_path_total[i]
+    print("当前解析文件名：'%s'"%file_path)
+    print("解析进度：%d/%d"%(i+1, len(file_path_total)))
     with open(file_path, 'rb') as fhdl:
         raw_email = fhdl.read()
     #编码替换，如果是GB2312编码，则换成GBK
@@ -140,36 +155,37 @@ for file_path in traverse_path(path):
 #     print(email_content)
 
     if valid_manual != 1 and valid_manual != 2 and category != '':
-        query = """insert into body_test (file_name, body_test.from, send_time, \
-        body_test.to, subject, category, content_length, attachments, body) values \
-        ( '%s', '%s', '%s', '%s', '%s', '%s', %d, '%s', '%s')"""
-        query = query%(pymysql.escape_string(str(file_path)), pymysql.escape_string(str(email_from)), email_date,\
+        query = """insert into %s (file_name, %s, send_time, \
+        %s, subject, category, content_length, attachments, body) values \
+        ('%s', '%s', '%s', '%s', '%s', '%s', %d, '%s', '%s')"""
+        query = query%(table, table_from, table_to, pymysql.escape_string(str(file_path)), pymysql.escape_string(str(email_from)), email_date,\
                        pymysql.escape_string(str(email_to)), pymysql.escape_string(str(email_subject)), pymysql.escape_string(str(category)), int(len(email_content)), \
                        pymysql.escape_string(str(email_attachment)), pymysql.escape_string(str(email_content)))
     elif valid_manual != 1 and valid_manual != 2 and category == '':
-        query = """insert into body_test (file_name, body_test.from, send_time, \
-        body_test.to, subject, content_length, attachments, body) values \
-        ( '%s', '%s', '%s', '%s', '%s', %d, '%s', '%s')"""
-        query = query%(pymysql.escape_string(str(file_path)), pymysql.escape_string(str(email_from)), email_date,\
+        query = """insert into %s (file_name, %s, send_time, \
+        %s, subject, content_length, attachments, body) values \
+        ('%s', '%s', '%s', '%s', '%s', %d, '%s', '%s')"""
+        query = query%(table, table_from, table_to, pymysql.escape_string(str(file_path)), pymysql.escape_string(str(email_from)), email_date,\
                        pymysql.escape_string(str(email_to)), pymysql.escape_string(str(email_subject)), int(len(email_content)), \
                        pymysql.escape_string(str(email_attachment)), pymysql.escape_string(str(email_content)))
     elif category == '' and (valid_manual == 1 or valid_manual == 2):
-        query = """insert into body_test (file_name, body_test.from, valid_manual, send_time, \
-        body_test.to, subject, content_length, attachments, body) values \
-        ( '%s', '%s', '%s', '%s', '%s', '%s', %d, '%s', '%s')"""
-        query = query%(pymysql.escape_string(str(file_path)), pymysql.escape_string(str(email_from)), int(valid_manual), email_date,\
+        query = """insert into %s (file_name, %s, valid_manual, send_time, \
+        %s, subject, content_length, attachments, body) values \
+        ('%s', '%s', %d, '%s', '%s', '%s', %d, '%s', '%s')"""
+        query = query%(table, table_from, table_to, pymysql.escape_string(str(file_path)), pymysql.escape_string(str(email_from)), int(valid_manual), email_date,\
                        pymysql.escape_string(str(email_to)), pymysql.escape_string(str(email_subject)), int(len(email_content)), \
                        pymysql.escape_string(str(email_attachment)), pymysql.escape_string(str(email_content)))
     else:
-        query = """insert into body_test (file_name, body_test.from, valid_manual, send_time, \
-        body_test.to, subject, category, content_length, attachments, body) values \
-        ( '%s', '%s', %d, '%s', '%s', '%s', '%s', %d, '%s', '%s')"""
-        query = query%(pymysql.escape_string(str(file_path)), pymysql.escape_string(str(email_from)), int(valid_manual), email_date,\
+        query = """insert into %s (file_name, %s, valid_manual, send_time, \
+        %s, subject, category, content_length, attachments, body) values \
+        ('%s', '%s', %d, '%s', '%s', '%s', '%s', %d, '%s', '%s')"""
+        query = query%(table, table_from, table_to, pymysql.escape_string(str(file_path)), pymysql.escape_string(str(email_from)), int(valid_manual), email_date,\
                        pymysql.escape_string(str(email_to)), pymysql.escape_string(str(email_subject)), pymysql.escape_string(str(category)), int(len(email_content)), \
                        pymysql.escape_string(str(email_attachment)), pymysql.escape_string(str(email_content)))
-#     print(query)
+    #print(query)
     cursor.execute(query)
     db.commit()
+
     
 #关闭游标，提交，关闭数据库连接
 
