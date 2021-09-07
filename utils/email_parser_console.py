@@ -87,6 +87,15 @@ for i in range(len(file_path_total)):
     if "GB2312" in raw_email_local:
         raw_email = raw_email_local.replace("GB2312", "GBK")
         raw_email = bytes(raw_email.encode('GBK', 'replace'))
+    elif "gb2312" in raw_email_local:
+        raw_email = raw_email_local.replace("gb2312", "GBK")
+        raw_email = bytes(raw_email.encode('GBK', 'replace'))
+    elif "Gb2312" in raw_email_local:
+        raw_email = raw_email_local.replace("Gb2312", "GBK")
+        raw_email = bytes(raw_email.encode('GBK', 'replace'))
+    elif "gB2312" in raw_email_local:
+        raw_email = raw_email_local.replace("gB2312", "GBK")
+        raw_email = bytes(raw_email.encode('GBK', 'replace'))
 
     #解析邮件
     ep = eml_parser.EmlParser(include_raw_body = True)
