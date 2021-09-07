@@ -124,9 +124,11 @@ func (e estimate) GetCategory(subject, attachments, body string) (utils.Category
 	subjectNoNum := utils.DelDigitalInString(subject)
 	attachmentsNoNum := utils.DelDigitalInString(attachments)
 	partition, tag := ac.GetCategoryIdx(subjectNoNum + attachmentsNoNum)
+
 	if partition != utils.UnknownCategory {
 		return partition, tag
 	}
+
 	//因为5折，这样的数字会被去掉，导致广告类关键词遭到破坏，又因为发票类关键词比广告类准确，所以只能先去除数字判断bill类，再保留数字判断ad类
 	partition, tag = ac.GetCategoryIdx(subject + attachments)
 	if partition != utils.UnknownCategory {
@@ -190,8 +192,16 @@ func (e estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 	//第6步骤：如果标题中出现手机号，并且类别是发票类，直接判断为非法邮件
 	aaa := e.AmendBody(eml.Subject)
 	mobilePhoneIDs, _ := utils.ExtractMobilePhone(aaa)
+
 	if len(mobilePhoneIDs) > 0 {
 		fmt.Println("----标题中有手机号--------------")
+		return utils.InvalidTag
+	}
+	//第7步：举个例子，标题中出现“发票”，正文中出现“代开发票”，判断类别时，标题中命中“发票”，直接判为发票类，内容不检查，后续判断合、非法时又没有检索关键字“代开发票”的步骤
+	//导致很明显的代开发票邮件误判，故最后一步再检查一下关键词，
+	amendbody := e.AmendBody(eml.Body)
+	partition, tag := ac.GetCategoryIdx(amendbody)
+	if partition == utils.BillCategory && utils.TagBillProperty[tag] == utils.InvalidTag {
 		return utils.InvalidTag
 	}
 	return utils.ValidTag
@@ -238,7 +248,6 @@ func (e estimate) AuditAllEmailItems() error {
 		amendattachments := e.AmendSubjectForCategory(v.Attachments)
 		//先计算其分类，然后更新到数据库中，后续可以比较了存入数据的分类是否和计算的分类一致。
 		partition, tag := e.GetCategory(amendSubject, amendattachments, v.Body)
-		fmt.Println(tag)
 		v.Partition = partition.Name()
 		err = model.BodyModel.UpdateItemCols(v, []string{"partition"})
 		if err != nil {
