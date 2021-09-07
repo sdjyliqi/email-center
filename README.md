@@ -1,15 +1,28 @@
-# email-center
-mail_dependency为linux环境搭建邮件解析环境的教程和安装包
-
-邮件解析脚本名称：email_parser_console.py
-作用：遍历所选目录，解析邮件存入数据库
-支持系统：支持Linux、Windows系统解析
-环境依赖：python3、pip依赖包
+邮件解析可执行包使用说明
+版本：  email_parser_windows.exe为windows版本
+        email_parser_linux为linux版本
+作用：遍历本地目录中的邮件，解析完成后写入数据库中
 示例：
-python email_parser_console.py --path /usr/local/mail_dependency/email/
-读取目录下所有文件，存入数据库中
-参数：
-  -h, --help           显示帮助信息
-  --path PATH          邮件所在目录(必填)
-  --manual MANUAL      是否为正常邮件(可选)，如果该标签已经标记，则传入该参数；未标记，则不传。其中1为正常邮件，2为异常邮件。
-  --category CATEGORY  邮件类别(可选)，如果邮件类别已经标记，则传入该参数；未标记，则不传。
+Windows：
+email_parser_windows.exe -a C:\Users\user\Desktop\创新项目\垃圾邮件\test -a C:\Users\user\Desktop\创新项目\垃圾邮件\test -t body_test
+ 
+Linux：
+./email_parser_linux -a test/ -t body_test
+注：先给email_parser_linux赋予执行权限 chmod 766 email_parser_linux
+ 
+参数： 
+  -h, --help            show this help message and exit
+  -a PATH, --path PATH  邮件所在目录(必填)
+  -m MANUAL, --manual MANUAL
+     是否为正常邮件(可选)，如果该标签已经标记，则传入该参数；未标记，则不传。其中1为正常邮件，2为异常邮件。
+  -c CATEGORY, --category CATEGORY
+    邮件类别(可选，默认为空)，如果邮件类别已经标记，则传入该参数；未标记，则不传
+  -t TABLE, --table TABLE
+    表名称（可选，默认为body）
+  -H HOST, --host HOST  数据库IP（可选，默认为10.233.146.47）
+  -P PORT, --port PORT  数据库端口（可选，默认为16315）
+  -d DATABASE, --database DATABASE
+      数据库名称（可选，默认为email-center）
+  -u USER, --user USER  数据库用户名（可选，默认为root）
+  -p PASSWORD, --password PASSWORD
+       数据库密码（可选）
