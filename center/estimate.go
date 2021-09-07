@@ -211,6 +211,7 @@ func (e estimate) AuditAdvEmail(b *model.Body, amendSubject, subjectTag string) 
 		return utils.InvalidTag
 	}
 	//步骤3：判断是否包括已入库单位的电话等信息，如果有直接为
+	b.Body = e.AmendBody(b.Body)
 	customerServiceIDs := ac.GetCustomerServiceIDs(b.Body + amendSubject)
 	if len(customerServiceIDs) > 0 {
 		return utils.ValidTag
@@ -237,6 +238,7 @@ func (e estimate) AuditAllEmailItems() error {
 		amendattachments := e.AmendSubjectForCategory(v.Attachments)
 		//先计算其分类，然后更新到数据库中，后续可以比较了存入数据的分类是否和计算的分类一致。
 		partition, tag := e.GetCategory(amendSubject, amendattachments, v.Body)
+		fmt.Println(tag)
 		v.Partition = partition.Name()
 		err = model.BodyModel.UpdateItemCols(v, []string{"partition"})
 		if err != nil {

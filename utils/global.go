@@ -82,6 +82,11 @@ var TagADProperty = map[string]LegalTag{
 	"免费送":    InvalidTag,
 	"折优惠":    InvalidTag,
 	"每日信用管家": ValidTag,
+	"报名":     UnknownTag,
+	"注册":     UnknownTag,
+	"培训":     UnknownTag,
+	"内训":     UnknownTag,
+	"训练":     UnknownTag,
 }
 
 //定义发票分类的关键字，通过关键字可能会判断出是否为异常短信
