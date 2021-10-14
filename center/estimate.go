@@ -255,7 +255,8 @@ func (e estimate) AuditAllEmailItems() error {
 		}
 		//计算邮件是否异常
 		v.ValidCalculate = int(e.AuditEmailLegality(v, amendSubject, tag, partition))
-		err = model.BodyModel.UpdateItemCols(v, []string{"valid_calculate"})
+		v.IsIdentify = 1
+		err = model.BodyModel.UpdateItemCols(v, []string{"valid_calculate", "is_identify"})
 		if err != nil {
 			return err
 		}

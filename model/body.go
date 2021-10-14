@@ -12,6 +12,7 @@ type Body struct {
 	Id              int    `json:"id" xorm:"not null pk autoincr INT(11)"`
 	FileName        string `json:"file_name" xorm:"unique VARCHAR(128)"`
 	From            string `json:"from" xorm:"not null VARCHAR(128)"`
+	IsIdentify      int    `json:"is_identify" xorm:"TINYINT(4)"`
 	ValidManual     int    `json:"valid_manual" xorm:"comment('录入数据时候打的标记') TINYINT(4)"`
 	ValidCalculate  int    `json:"valid_calculate" xorm:"TINYINT(4)"`
 	SendTime        string `json:"send_time" xorm:"VARCHAR(64)"`
@@ -28,13 +29,13 @@ type Body struct {
 }
 
 func (t Body) TableName() string {
-	return "body_ad"
+	return "body"
 }
 
-//GetAllItems ...
+//GetAllItems ...i
 func (t Body) GetAllItems() ([]*Body, error) {
-	var items []*Body // .Where("id=151").
-	err := utils.GetMysqlClient().Where("id=860").Find(&items)
+	var items []*Body // Where("`category` != `partition` ")..Where("id=151").Where("is_identify=0")
+	err := utils.GetMysqlClient().Where("is_identify=0").Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
 		return nil, err
