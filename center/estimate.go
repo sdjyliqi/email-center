@@ -9,7 +9,7 @@ import (
 )
 
 //判断维度是否是否为真假
-type estimate struct {
+type Estimate struct {
 	assistCharacter []string //设置
 	amendCharacters []*model.Amend
 	domainBillWhite map[string]utils.LegalTag
@@ -17,7 +17,7 @@ type estimate struct {
 }
 
 // CreateEstimate ... 创建一个鉴定实例
-func CreateEstimate() (*estimate, error) {
+func CreateEstimate() (*Estimate, error) {
 	var characters []string
 	domainsForBill := map[string]utils.LegalTag{}
 	domainsForAD := map[string]utils.LegalTag{}
@@ -46,7 +46,7 @@ func CreateEstimate() (*estimate, error) {
 		return nil, err
 	}
 
-	return &estimate{
+	return &Estimate{
 		assistCharacter: characters,
 		amendCharacters: amendItems,
 		domainBillWhite: domainsForBill,
@@ -55,7 +55,7 @@ func CreateEstimate() (*estimate, error) {
 }
 
 //AmendSubject ...修正标题,剔除一些无用的字符
-func (e estimate) AmendSubjectForCategory(content string) string {
+func (e Estimate) AmendSubjectForCategory(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
@@ -73,7 +73,7 @@ func (e estimate) AmendSubjectForCategory(content string) string {
 }
 
 //AmendSubject ...修正标题,剔除一些无用的字符
-func (e estimate) AmendSubject(content string) string {
+func (e Estimate) AmendSubject(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
@@ -88,7 +88,7 @@ func (e estimate) AmendSubject(content string) string {
 	}
 	return newSubject
 }
-func (e estimate) AmendSubjectExtent(content string) string {
+func (e Estimate) AmendSubjectExtent(content string) string {
 	newSubject := content
 	for _, v := range e.amendCharacters {
 		newSubject = strings.ReplaceAll(newSubject, v.Raw, v.Replace)
@@ -98,7 +98,7 @@ func (e estimate) AmendSubjectExtent(content string) string {
 }
 
 //AmendBody ...修正邮件正文
-func (e estimate) AmendBody(content string) string {
+func (e Estimate) AmendBody(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
@@ -118,7 +118,7 @@ func (e estimate) AmendBody(content string) string {
 }
 
 //GetCategory ...获取待鉴别邮件的分类,标题、附件名、内容
-func (e estimate) GetCategory(subject, attachments, body string) (utils.Category, string) {
+func (e Estimate) GetCategory(subject, attachments, body string) (utils.Category, string) {
 	//如果通过标题无法判断出类别，需要通过body 进行判断
 	//继续修正，需要把全部数字去除
 	subjectNoNum := utils.DelDigitalInString(subject)
@@ -140,7 +140,7 @@ func (e estimate) GetCategory(subject, attachments, body string) (utils.Category
 
 //AuditEmailLegality ...基于解析内容判断邮件是否合法
 //传入参数 eml为邮件内容结构图，amendSubject修正后的主题，通过分类的时候命中的分类标签
-func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag string, category utils.Category) utils.LegalTag {
+func (e Estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag string, category utils.Category) utils.LegalTag {
 	switch category {
 	case utils.BillCategory:
 		return e.AuditBillEmail(eml, amendSubject, subjectTag)
@@ -153,7 +153,7 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 }
 
 //AuditBillEmail ...基于解析内容判断邮件是否合法
-func (e estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag string) utils.LegalTag {
+func (e Estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
 	senderDomain := utils.GetSenderDomain(eml.From)
 	v, ok := e.domainBillWhite[senderDomain]
@@ -208,7 +208,7 @@ func (e estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 }
 
 //AuditAdvEmail ...判断广告类邮件是否合法
-func (e estimate) AuditAdvEmail(b *model.Body, amendSubject, subjectTag string) utils.LegalTag {
+func (e Estimate) AuditAdvEmail(b *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
 	senderDomain := utils.GetSenderDomain(b.From)
 	v, ok := e.domainADWhite[senderDomain]
@@ -235,7 +235,7 @@ func (e estimate) AuditAdvEmail(b *model.Body, amendSubject, subjectTag string) 
 }
 
 // AuditAllEmailItems  ...获取待鉴别邮件的分类
-func (e estimate) AuditAllEmailItems() error {
+func (e Estimate) AuditAllEmailItems() error {
 	items, err := model.BodyModel.GetAllItems()
 	if err != nil {
 		return nil

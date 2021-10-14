@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
-	center.TaskCenter()
+	result, _ := center.CreateEstimate()
+	result.AuditAllEmailItems()
 }
