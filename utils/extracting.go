@@ -16,7 +16,7 @@ func GetSenderDomain(email string) string {
 	if idx > 1 {
 		content = content[idx+1:]
 	}
-	//处理一般性商业邮箱
+	//处理一般性商业邮箱， .com.cn在这儿处理掉
 	idx = strings.Index(content, ".com")
 	if idx > 1 {
 		content = content[:idx]
@@ -24,6 +24,11 @@ func GetSenderDomain(email string) string {
 	//处理教育邮箱
 	idx = strings.Index(content, ".edu.")
 	if idx > 1 {
+		content = content[:idx]
+	}
+	//处理无.com，只有.cn的情况   styy@tpp.cntaiping.com对于这种情况使用条件 idx+3==len(content) 来排除
+	idx = strings.Index(content, ".cn")
+	if idx > 1 && idx+3 == len(content) {
 		content = content[:idx]
 	}
 	if content == "" {

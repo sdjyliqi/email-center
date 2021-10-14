@@ -28,13 +28,13 @@ type Body struct {
 }
 
 func (t Body) TableName() string {
-	return "body"
+	return "body_ad"
 }
 
 //GetAllItems ...
 func (t Body) GetAllItems() ([]*Body, error) {
-	var items []*Body // Where("`category` != `partition` ")..Where("id=151").
-	err := utils.GetMysqlClient().Find(&items)
+	var items []*Body // .Where("id=151").
+	err := utils.GetMysqlClient().Where("id=855").Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
 		return nil, err

@@ -14,6 +14,8 @@ type Domain struct {
 	Hotline    string `json:"hotline" xorm:"default '' comment('客服电话，英文','分割') VARCHAR(256)"`
 	Highlights string `json:"highlights" xorm:"default '' VARCHAR(256)"`
 	Official   string `json:"official" xorm:"comment('发件人公司名') VARCHAR(64)"`
+	AllowAd    int    `json:"allow_ad" xorm:"default 0 comment('广告类，1白2黑') TINYINT(1)"`
+	AllowBill  int    `json:"allow_bill" xorm:"default 0 comment('1白2黑') TINYINT(1)"`
 }
 
 func (t Domain) TableName() string {
