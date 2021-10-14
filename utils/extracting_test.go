@@ -37,6 +37,12 @@ func Test_GetVX(t *testing.T) {
 	t.Log(result)
 }
 
+func Test_GetSenderDomain(t *testing.T) {
+	content := "eos@t.cnbfund.com"
+	expect := "cnbfund"
+	assert.Equal(t, expect, GetSenderDomain(content))
+}
+
 func Test_GetQQ(t *testing.T) {
 	content := "<html><body>+V：w13774336437   qq63123988</body></html>"
 	result := GetQQ(content)
