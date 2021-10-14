@@ -8,7 +8,6 @@ import (
 	"strings"
 )
 
-//ashjashjas
 var DomainACMatch *ahocorasick.Matcher
 var CategoryACMatch *ahocorasick.Matcher
 var HighlightsACMatch *ahocorasick.Matcher

@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="">
+    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="广告类邮件">
+      <change afterPath="$PROJECT_DIR$/model/dirty.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/dirty_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ac/ac.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/ac.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ac/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/init.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/domain.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/domain.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +68,7 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../known01" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/model" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
@@ -88,7 +86,7 @@
       <recent name="D:\gowork\src\email-center\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.Test_Estimate in email-center/center (1)">
+  <component name="RunManager" selected="Go Test.TestDirty_GetAllItemsGetAllItems in email-center/model">
     <configuration name="go build email-center" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$" />
@@ -107,19 +105,19 @@
       <filePath value="$PROJECT_DIR$/sensitive/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_Estimate in email-center/center (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDirty_GetAllItemsGetAllItems in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/center" />
+      <working_directory value="$PROJECT_DIR$/model" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="email-center/center" />
+      <package value="email-center/model" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTest_Estimate\E$" />
+      <pattern value="^\QTestDirty_GetAllItemsGetAllItems\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_Estimate in email-center/center (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_Estimate in email-center/center (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$/center" />
       <root_directory value="$PROJECT_DIR$" />
@@ -145,11 +143,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestDirty_GetAllItemsGetAllItems in email-center/model" />
         <item itemvalue="Go Test.Test_Estimate in email-center/center (1)" />
         <item itemvalue="Go Build.go build email-center" />
         <item itemvalue="Go Build.go build email-center/sensitive" />
         <item itemvalue="Go Test.Test_Estimate in email-center/center" />
-        <item itemvalue="Go Test.Test_Estimate in email-center/center (2)" />
       </list>
     </recent_temporary>
   </component>
@@ -188,7 +186,8 @@
     <MESSAGE value="add db mysql" />
     <MESSAGE value="liqi to main" />
     <MESSAGE value="安全广告邮件" />
-    <option name="LAST_COMMIT_MESSAGE" value="安全广告邮件" />
+    <MESSAGE value="广告类邮件" />
+    <option name="LAST_COMMIT_MESSAGE" value="广告类邮件" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -215,6 +214,11 @@
           <url>file://$PROJECT_DIR$/utils/extracting_test.go</url>
           <line>71</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/model/dirty_test.go</url>
+          <line>9</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
