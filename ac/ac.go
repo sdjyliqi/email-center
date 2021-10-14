@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-//ashjashjas
 var DomainACMatch *ahocorasick.Matcher
 var CategoryACMatch *ahocorasick.Matcher
 var HighlightsACMatch *ahocorasick.Matcher
 var CustomerServiceACMatch *ahocorasick.Matcher
 var ADBlackWordACMatch *ahocorasick.Matcher
+var DirtyWordACMatch *ahocorasick.Matcher
 
 var URLDomains = []string{"jd.com", "dangdang.com", "cebbank.com", "suning.com"}
 
@@ -24,6 +24,7 @@ var categoryBox = map[string]utils.Category{}
 var AllCategoryWords = []string{}
 var HighlightsWords = []string{}
 var customerServiceWords = []string{}
+var dirtyWords = []string{}
 
 //InitURLDomainAC ...初始化AC自动机
 //todo  如果不用直接删除
@@ -105,6 +106,16 @@ func InitCustomerServiceAC() {
 	}
 	CustomerServiceACMatch = ahocorasick.NewMatcher()
 	CustomerServiceACMatch.Build(customerServiceWords)
+}
+
+//InitDirtyWordsAC ...构建色情敏感词的AC自动机,目前分类都是色情
+func InitDirtyWordsAC() {
+	items, _ := model.DirtyModel.GetAllItems()
+	for _, v := range items {
+		dirtyWords = append(dirtyWords, v.Word)
+	}
+	DirtyWordACMatch = ahocorasick.NewMatcher()
+	DirtyWordACMatch.Build(dirtyWords)
 }
 
 //InitADBlackWordsServiceAC ...构建广告类所属的黑名单词
