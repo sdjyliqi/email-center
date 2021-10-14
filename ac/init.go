@@ -17,4 +17,5 @@ func init() {
 	InitADBlackWordsServiceAC() //初始化
 	InitHighlightsAC()          //初始化白名单关键字，主要包括大型公司的客服电话或者关键字如JD.com
 	InitCustomerServiceAC()     //构建所有客服电话的自动机
+	InitDirtyWordsAC()          //构建色情敏感词自动机
 }
