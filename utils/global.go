@@ -14,6 +14,7 @@ const (
 	UnknownCategory Category = 0
 	BillCategory    Category = 1 //发票类
 	AdvertCategory  Category = 2 //广告类
+	DirtyCategory   Category = 3 //色情类
 )
 
 func (c Category) Name() string {
@@ -22,6 +23,8 @@ func (c Category) Name() string {
 		return "发票类"
 	case AdvertCategory:
 		return "广告类"
+	case DirtyCategory:
+		return "色情类"
 	default:
 		return "未知分类"
 	}
