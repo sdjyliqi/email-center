@@ -6,7 +6,7 @@ import (
 )
 
 //判断维度是否是否为真假
-var estTest *estimate
+var estTest *Estimate
 
 func Test_Estimate(t *testing.T) {
 	var err error
