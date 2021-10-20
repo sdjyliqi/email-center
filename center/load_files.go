@@ -31,8 +31,8 @@ func (l *LoadEmailBody) SetDataPath(item []EmailFile) error {
 }
 
 func (l *LoadEmailBody) ExtractEmailData() error {
-
 	items, err := model.BodyModel.GetAllItems()
+	fmt.Println("===数量：========", len(items))
 	if err != nil {
 		return err
 	}
@@ -50,7 +50,6 @@ func (l *LoadEmailBody) ExtractEmailData() error {
 		if len(qqIDs) > 0 {
 			body.Qq = qqIDs[0]
 		}
-
 		bodyURLDomains, err := utils.ExtractWebDomain(v.Body)
 		fmt.Println("======", bodyURLDomains, err)
 

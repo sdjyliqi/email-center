@@ -36,6 +36,11 @@ func InitURLDomainAC() {
 //GetCategoryIdx ...获取邮件的分类索引名称,和索引词
 func GetCategoryIdx(idx string) (utils.Category, string) {
 	var tags utils.StringSlice
+	//第一步骤：先判断一下色情的灰色名单数量，因为可能会有重复的情况，比如国产自拍等字样
+	dirtyWords := GetDirtyWords(idx)
+	if len(idx) < 500 && len(dirtyWords) >= 3 {
+		return utils.DirtyCategory, strings.Join(dirtyWords, ",")
+	}
 	idxList := CategoryACMatch.Match(idx)
 	for _, v := range idxList {
 		tag := AllCategoryWords[v]
@@ -57,11 +62,16 @@ func InitCategoryWordsAC() {
 	for _, v := range billCategoryWords {
 		categoryBox[v] = utils.BillCategory
 	}
-
+	//分类中增加广告的相关词汇
 	for _, v := range advsCategoryWords {
 		categoryBox[v] = utils.AdvertCategory
 	}
+	//分类中增加色情敏感词
+	for _, v := range dirtyWords {
+		categoryBox[v] = utils.DirtyCategory
+	}
 	AllCategoryWords = append(billCategoryWords, advsCategoryWords...)
+	AllCategoryWords = append(AllCategoryWords, dirtyWords...)
 	CategoryACMatch = ahocorasick.NewMatcher()
 	CategoryACMatch.Build(AllCategoryWords)
 }
@@ -112,7 +122,7 @@ func InitCustomerServiceAC() {
 func InitDirtyWordsAC() {
 	items, _ := model.DirtyModel.GetAllItems()
 	for _, v := range items {
-		dirtyWords = append(dirtyWords, v.Word)
+		dirtyWords = append(dirtyWords, strings.ToLower(v.Word))
 	}
 	DirtyWordACMatch = ahocorasick.NewMatcher()
 	DirtyWordACMatch.Build(dirtyWords)
@@ -141,6 +151,17 @@ func GetADBlackWords(content string) []string {
 	idxList := ADBlackWordACMatch.Match(content)
 	for _, v := range idxList {
 		tag := utils.ADBlackWords[v]
+		words = append(words, tag)
+	}
+	return words
+}
+
+//GetDirtyWords ... 利用AC获取色情敏感词
+func GetDirtyWords(content string) []string {
+	var words []string
+	idxList := DirtyWordACMatch.Match(content)
+	for _, v := range idxList {
+		tag := dirtyWords[v]
 		words = append(words, tag)
 	}
 	return words

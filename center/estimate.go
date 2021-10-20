@@ -124,11 +124,9 @@ func (e estimate) GetCategory(subject, attachments, body string) (utils.Category
 	subjectNoNum := utils.DelDigitalInString(subject)
 	attachmentsNoNum := utils.DelDigitalInString(attachments)
 	partition, tag := ac.GetCategoryIdx(subjectNoNum + attachmentsNoNum)
-
 	if partition != utils.UnknownCategory {
 		return partition, tag
 	}
-
 	//因为5折，这样的数字会被去掉，导致广告类关键词遭到破坏，又因为发票类关键词比广告类准确，所以只能先去除数字判断bill类，再保留数字判断ad类
 	partition, tag = ac.GetCategoryIdx(subject + attachments)
 	if partition != utils.UnknownCategory {
@@ -146,6 +144,8 @@ func (e estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 		return e.AuditBillEmail(eml, amendSubject, subjectTag)
 	case utils.AdvertCategory:
 		return e.AuditAdvEmail(eml, amendSubject, subjectTag)
+	case utils.DirtyCategory:
+		return e.AuditDirtyEmail(eml, amendSubject, subjectTag)
 	default:
 		return utils.UnknownTag
 	}
@@ -181,7 +181,6 @@ func (e estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 	qqIDs := utils.GetQQ(amendContent)
 	fmt.Println(vxIDs, qqIDs)
 	if len(vxIDs) > 0 || len(qqIDs) > 0 {
-		fmt.Println("---------by 微信 qq-----------------")
 		return utils.InvalidTag
 	}
 	//第5步骤：body直接已某些关键字为开头的，直接判断为合法
@@ -192,15 +191,13 @@ func (e estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 	//第6步骤：如果标题中出现手机号，并且类别是发票类，直接判断为非法邮件
 	aaa := e.AmendBody(eml.Subject)
 	mobilePhoneIDs, _ := utils.ExtractMobilePhone(aaa)
-
 	if len(mobilePhoneIDs) > 0 {
-		fmt.Println("----标题中有手机号--------------")
 		return utils.InvalidTag
 	}
 	//第7步：举个例子，标题中出现“发票”，正文中出现“代开发票”，判断类别时，标题中命中“发票”，直接判为发票类，内容不检查，后续判断合、非法时又没有检索关键字“代开发票”的步骤
 	//导致很明显的代开发票邮件误判，故最后一步再检查一下关键词，
-	amendbody := e.AmendBody(eml.Body)
-	partition, tag := ac.GetCategoryIdx(amendbody)
+	amendBody := e.AmendBody(eml.Body)
+	partition, tag := ac.GetCategoryIdx(amendBody)
 	if partition == utils.BillCategory && utils.TagBillProperty[tag] == utils.InvalidTag {
 		return utils.InvalidTag
 	}
@@ -234,6 +231,36 @@ func (e estimate) AuditAdvEmail(b *model.Body, amendSubject, subjectTag string) 
 	return utils.UnknownTag
 }
 
+//AuditDirtyEmail ...判断色情类邮件
+func (e estimate) AuditDirtyEmail(b *model.Body, amendSubject, subjectTag string) utils.LegalTag {
+	//步骤1：通过发件者的邮件域名，如果白名单直接为合法,2021年10月20日，临时取消该策略
+	//senderDomain := utils.GetSenderDomain(b.From)
+	//v, ok := e.domainADWhite[senderDomain]
+	//if ok {
+	//	return v
+	//}
+	//步骤2：判断色情灰词的数量和整体占比，
+	amendContent := e.AmendBody(b.Body)
+	dirtyWords := ac.GetDirtyWords(amendSubject + amendContent)
+	if len(dirtyWords) >= 3 {
+		return utils.InvalidTag
+	}
+	//判断是否包括：域名，qq，微信，tele
+	domains, ok := utils.ExtractWebDomain(b.Body + amendSubject)
+	if ok && len(domains) > 0 {
+		return utils.InvalidTag
+	}
+	qqIDs := utils.GetQQ(amendSubject + amendContent)
+	if len(qqIDs) > 0 {
+		return utils.InvalidTag
+	}
+	vxIDs := utils.GetVX(amendSubject + amendContent)
+	if len(vxIDs) > 0 {
+		return utils.InvalidTag
+	}
+	return utils.UnknownTag
+}
+
 // AuditAllEmailItems  ...获取待鉴别邮件的分类
 func (e estimate) AuditAllEmailItems() error {
 	items, err := model.BodyModel.GetAllItems()
@@ -245,9 +272,9 @@ func (e estimate) AuditAllEmailItems() error {
 		v.Subject = strings.ToLower(v.Subject)
 		v.Attachments = strings.ToLower(v.Attachments)
 		amendSubject := e.AmendSubjectForCategory(v.Subject)
-		amendattachments := e.AmendSubjectForCategory(v.Attachments)
+		amendAttachments := e.AmendSubjectForCategory(v.Attachments)
 		//先计算其分类，然后更新到数据库中，后续可以比较了存入数据的分类是否和计算的分类一致。
-		partition, tag := e.GetCategory(amendSubject, amendattachments, v.Body)
+		partition, tag := e.GetCategory(amendSubject, amendAttachments, v.Body)
 		v.Partition = partition.Name()
 		err = model.BodyModel.UpdateItemCols(v, []string{"partition"})
 		if err != nil {

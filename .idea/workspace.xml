@@ -4,12 +4,19 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="广告类邮件">
-      <change afterPath="$PROJECT_DIR$/model/dirty.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/dirty_test.go" afterDir="false" />
+    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="控制色情">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ac/ac.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/ac.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ac/ac_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/ac_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ac/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/init.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/center/estimate_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/center/load_files.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/load_files.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/extracting.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/extracting_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,9 +51,9 @@
     <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/center/load_files.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/reader.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../pkg/mod/github.com/!dusan!kasan/parsemail@v1.2.0/parsemail.go" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/center/load_files.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1vKU3e20djYeoIWMd20IZYLCqTK" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -68,7 +75,7 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/model" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
@@ -86,7 +93,7 @@
       <recent name="D:\gowork\src\email-center\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestDirty_GetAllItemsGetAllItems in email-center/model">
+  <component name="RunManager" selected="Go Test.Test_Estimate in email-center/center (2)">
     <configuration name="go build email-center" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$" />
@@ -96,25 +103,16 @@
       <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="go build email-center/sensitive" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="TestTaskCenter in email-center/center" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="email-center/sensitive" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/sensitive/main.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestDirty_GetAllItemsGetAllItems in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/model" />
+      <working_directory value="$PROJECT_DIR$/center" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="email-center/model" />
+      <package value="email-center/center" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDirty_GetAllItemsGetAllItems\E$" />
+      <pattern value="^\QTestTaskCenter\E$" />
       <method v="2" />
     </configuration>
     <configuration name="Test_Estimate in email-center/center (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -129,7 +127,7 @@
       <pattern value="^\QTest_Estimate\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_Estimate in email-center/center" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_Estimate in email-center/center (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$/center" />
       <root_directory value="$PROJECT_DIR$" />
@@ -141,13 +139,25 @@
       <pattern value="^\QTest_Estimate\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="Test_GetQQ in email-center/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="email-center" />
+      <working_directory value="$PROJECT_DIR$/utils" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="email-center/utils" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTest_GetQQ\E$" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestDirty_GetAllItemsGetAllItems in email-center/model" />
-        <item itemvalue="Go Test.Test_Estimate in email-center/center (1)" />
+        <item itemvalue="Go Test.Test_Estimate in email-center/center (2)" />
+        <item itemvalue="Go Test.TestTaskCenter in email-center/center" />
         <item itemvalue="Go Build.go build email-center" />
-        <item itemvalue="Go Build.go build email-center/sensitive" />
-        <item itemvalue="Go Test.Test_Estimate in email-center/center" />
+        <item itemvalue="Go Test.Test_GetQQ in email-center/utils" />
+        <item itemvalue="Go Test.Test_Estimate in email-center/center (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -187,7 +197,9 @@
     <MESSAGE value="liqi to main" />
     <MESSAGE value="安全广告邮件" />
     <MESSAGE value="广告类邮件" />
-    <option name="LAST_COMMIT_MESSAGE" value="广告类邮件" />
+    <MESSAGE value="色情类变量定义" />
+    <MESSAGE value="控制色情" />
+    <option name="LAST_COMMIT_MESSAGE" value="控制色情" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -197,7 +209,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/utils/extracting_test.go</url>
-          <line>56</line>
+          <line>68</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -212,13 +224,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/utils/extracting_test.go</url>
-          <line>71</line>
+          <line>83</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/model/dirty_test.go</url>
-          <line>9</line>
+          <url>file://$PROJECT_DIR$/center/estimate_test.go</url>
+          <line>10</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/center/task_center_test.go</url>
+          <line>6</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

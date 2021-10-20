@@ -44,7 +44,7 @@ func GetQQ(content string) []string {
 	content = content + " "
 	content = strings.Replace(content, ":", "", -1)
 	content = strings.Replace(content, "：", "", -1)
-	var qqFormat = "(qq|扣扣|抠抠)[0-9]{5,11}[^@A-Za-z]"
+	var qqFormat = "(q|扣|抠|旧)[0-9]{5,11}[^@A-Za-z]"
 	formatRegx := regexp.MustCompile(qqFormat)
 	values := formatRegx.FindAllStringSubmatch(strings.ToLower(content), -1)
 	for _, v := range values {

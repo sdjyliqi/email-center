@@ -49,15 +49,21 @@ func Test_GetQQ(t *testing.T) {
 	assert.Equal(t, 1, len(result))
 	t.Log(result)
 
-	content = "加v:361212981，"
+	content = "加v:361212981，高清中文群p男女一夜请看懂加qq3023623334qcjbnhhyiorg"
 	result = GetQQ(content)
-	assert.Equal(t, 0, len(result))
-	t.Log(result)
+	assert.Equal(t, 1, len(result))
+	t.Log("++++++++++++", result)
 
 	content = "<html><body>qq:361111888,+V：w13774336437   qq63123988</body></html>"
 	result = GetQQ(content)
 	assert.Equal(t, 2, len(result))
 	t.Log(result)
+
+	content = "可约，+扣3781281212"
+	result = GetQQ(content)
+	assert.Equal(t, 1, len(result))
+	t.Log(result)
+
 }
 
 func Test_ExtractWebDomain(t *testing.T) {
