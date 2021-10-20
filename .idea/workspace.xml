@@ -4,19 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="控制色情">
+    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="增加色情分类的识别">
+      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ac/ac.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/ac.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ac/ac_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/ac_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ac/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/init.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/center/estimate_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/center/load_files.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/load_files.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/extracting.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/extracting_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,7 +191,8 @@
     <MESSAGE value="广告类邮件" />
     <MESSAGE value="色情类变量定义" />
     <MESSAGE value="控制色情" />
-    <option name="LAST_COMMIT_MESSAGE" value="控制色情" />
+    <MESSAGE value="增加色情分类的识别" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加色情分类的识别" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
