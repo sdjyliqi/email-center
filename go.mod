@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/gansidui/ahocorasick v0.0.0-20210831105556-d71fed5e6378
+	github.com/gin-gonic/gin v1.7.4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/go-xorm/xorm v0.7.9
 	github.com/golang/glog v1.0.0

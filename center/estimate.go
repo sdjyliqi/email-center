@@ -4,7 +4,9 @@ import (
 	"email-center/ac"
 	"email-center/model"
 	"email-center/utils"
+	"encoding/json"
 	"fmt"
+	"github.com/golang/glog"
 	"strings"
 )
 
@@ -59,12 +61,12 @@ func (e Estimate) AmendSubjectForCategory(content string) string {
 	var amendChars []rune
 	chars := []rune(content)
 	for _, v := range chars {
-		//v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 此处修改前的代码
 		if v < '0' || v > '9' && v < 'A' || v > 'Z' && v < 'a' || v > 'z' && v <= 255 {
 			continue
 		}
 		amendChars = append(amendChars, v)
 	}
+	fmt.Println("===9999===", string(amendChars))
 	newSubject := string(amendChars)
 	for _, v := range e.assistCharacter {
 		newSubject = strings.ReplaceAll(newSubject, v, "")
@@ -94,7 +96,22 @@ func (e Estimate) AmendSubjectExtent(content string) string {
 		newSubject = strings.ReplaceAll(newSubject, v.Raw, v.Replace)
 	}
 	return newSubject
+}
 
+func (e Estimate) AmendRemoveReceive(eml *model.Body, content string) (string, error) {
+	var receiver []string
+	eml.To = strings.ReplaceAll(eml.To, "'", "\"")
+	if len(eml.To) > 0 {
+		err := json.Unmarshal([]byte(eml.To), &receiver)
+		if err != nil {
+			glog.Errorf("Unmarshal the %s failed,err:%+v", eml.To, err)
+			return content, err
+		}
+	}
+	for _, v := range receiver {
+		content = strings.ReplaceAll(content, v, "")
+	}
+	return content, nil
 }
 
 //AmendBody ...修正邮件正文
@@ -110,10 +127,13 @@ func (e Estimate) AmendBody(content string) string {
 	newContent := string(amendChars)
 	for _, v := range e.amendCharacters {
 		newContent = strings.ReplaceAll(newContent, v.Raw, v.Replace)
+		fmt.Println(v.Raw, v.Replace, newContent)
 	}
 	for _, v := range e.assistCharacter {
 		newContent = strings.ReplaceAll(newContent, v, "")
 	}
+	//修补一下如果是com的情况，可能已经被替换为c0m，需要重新替换一下
+	newContent = strings.ReplaceAll(newContent, "c0m", "com")
 	return newContent
 }
 
@@ -155,11 +175,13 @@ func (e Estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 //AuditBillEmail ...基于解析内容判断邮件是否合法
 func (e Estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
+	fmt.Println("============AuditBillEmail============")
 	senderDomain := utils.GetSenderDomain(eml.From)
 	v, ok := e.domainBillWhite[senderDomain]
 	if ok {
 		return v
 	}
+	fmt.Println("============AuditBillEmail======111======")
 	//步骤2：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
 	if subjectTag != "" {
 		val, ok := utils.TagBillProperty[subjectTag]
@@ -167,19 +189,19 @@ func (e Estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 			return utils.InvalidTag
 		}
 	}
-
-	content := eml.Subject + eml.Body
-	amendContent := e.AmendBody(content)
+	amendContent := amendSubject + e.AmendBody(eml.Body)
+	fmt.Println("+++++++++++++++++++++++++++++++++++++++++++", amendSubject)
+	amendContent, _ = e.AmendRemoveReceive(eml, amendContent)
 	//第3部：判断body中是否包括白名单数据，如jd.com 或者官方客服电话800-
-	whiteWords := ac.GetWhiteHighlights(content) //使用原始数据，不要做修正
+	whiteWords := ac.GetWhiteHighlights(amendContent) //使用原始数据，不要做修正
+	fmt.Println("============AuditBillEmail======2222======", amendContent, whiteWords)
 	if len(whiteWords) > 0 {
 		return utils.ValidTag
 	}
-
 	//步骤4：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
-	vxIDs := utils.GetVX(amendContent)
-	qqIDs := utils.GetQQ(amendContent)
-	fmt.Println(vxIDs, qqIDs)
+	vxIDs := utils.GetVX(amendSubject + amendContent)
+	qqIDs := utils.GetQQ(amendSubject + amendContent)
+	fmt.Println("====", vxIDs, qqIDs)
 	if len(vxIDs) > 0 || len(qqIDs) > 0 {
 		return utils.InvalidTag
 	}
@@ -223,7 +245,11 @@ func (e Estimate) AuditAdvEmail(b *model.Body, amendSubject, subjectTag string) 
 	if len(customerServiceIDs) > 0 {
 		return utils.ValidTag
 	}
-	//步骤4，在广告的分类下，出现微信等黑名单词，直接判断为异常状态
+	//第4步骤：body直接已某些关键字为开头的，直接判断为合法
+	if strings.HasPrefix(b.Body, "发自我的") || strings.HasPrefix(b.Body, "sentfrommy") {
+		return utils.ValidTag
+	}
+	//步骤5，在广告的分类下，出现微信等黑名单词，直接判断为异常状态
 	blackWords := ac.GetADBlackWords(b.Body + amendSubject)
 	if len(blackWords) > 0 {
 		return utils.InvalidTag
@@ -232,7 +258,7 @@ func (e Estimate) AuditAdvEmail(b *model.Body, amendSubject, subjectTag string) 
 }
 
 //AuditDirtyEmail ...判断色情类邮件
-func (e estimate) AuditDirtyEmail(b *model.Body, amendSubject, subjectTag string) utils.LegalTag {
+func (e Estimate) AuditDirtyEmail(b *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法,2021年10月20日，临时取消该策略
 	//senderDomain := utils.GetSenderDomain(b.From)
 	//v, ok := e.domainADWhite[senderDomain]
@@ -272,6 +298,7 @@ func (e Estimate) AuditAllEmailItems() error {
 		v.Subject = strings.ToLower(v.Subject)
 		v.Attachments = strings.ToLower(v.Attachments)
 		amendSubject := e.AmendSubjectForCategory(v.Subject)
+		fmt.Println("===========amendSubject=========", v.Subject, "======", amendSubject)
 		amendAttachments := e.AmendSubjectForCategory(v.Attachments)
 		//先计算其分类，然后更新到数据库中，后续可以比较了存入数据的分类是否和计算的分类一致。
 		partition, tag := e.GetCategory(amendSubject, amendAttachments, v.Body)

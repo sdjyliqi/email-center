@@ -5307,4 +5307,6 @@ var TagPropertyDict = map[string]LegalTag{
 	"代开橃漂":         InvalidTag,
 	"岱kai发镖":       InvalidTag,
 	"飘据":           InvalidTag,
+	"正规票":          InvalidTag,
+	"开普票":          InvalidTag,
 }
