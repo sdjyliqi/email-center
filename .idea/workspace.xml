@@ -5,25 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="整体测试">
-      <change afterPath="$PROJECT_DIR$/client/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handle/tranding.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/situation_form.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/situation_form_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/situation_period.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/situation_period_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/situation_top.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/situation_top_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handle/operating.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/situation_hours.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/situation_hours_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/conf.go" beforeDir="false" afterPath="$PROJECT_DIR$/conf/conf.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handle/tranding.go" beforeDir="false" afterPath="$PROJECT_DIR$/handle/tranding.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/dirty.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/dirty.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/dirty_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/dirty_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/situation_form.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/situation_form.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/extracting.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/extracting.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/global.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/slice_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/slice_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/words.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/words.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="main-1022" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -101,41 +95,8 @@
       <recent name="D:\gowork\src\email-center\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build email-center">
-    <configuration name="go build email-center" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="email-center" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/main.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestDelTo in email-center/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/utils" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="email-center/utils" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestDelTo\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Test_Estimate in email-center/center (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/center" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="email-center/center" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTest_Estimate\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Test_SituationFormGetAllItems in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestDirty_DelItemByID in email-center/model">
+    <configuration name="TestDirty_DelItemByID in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$/model" />
       <root_directory value="$PROJECT_DIR$" />
@@ -144,10 +105,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTest_SituationFormGetAllItems\E$" />
+      <pattern value="^\QTestDirty_DelItemByID\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_SituationPeriodModelGetAllItems in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDirty_GetAllItemsGetAllItems in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$/model" />
       <root_directory value="$PROJECT_DIR$" />
@@ -156,16 +117,52 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTest_SituationPeriodModelGetAllItems\E$" />
+      <pattern value="^\QTestDirty_GetAllItemsGetAllItems\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestDirty_GetItemsByPage in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="email-center" />
+      <working_directory value="$PROJECT_DIR$/model" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="email-center/model" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestDirty_GetItemsByPage\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestDirty_GetItemsCount in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="email-center" />
+      <working_directory value="$PROJECT_DIR$/model" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="email-center/model" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestDirty_GetItemsCount\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestDirty_SearchItemsByIdx in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="email-center" />
+      <working_directory value="$PROJECT_DIR$/model" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="email-center/model" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestDirty_SearchItemsByIdx\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestDelTo in email-center/utils" />
-        <item itemvalue="Go Test.Test_SituationPeriodModelGetAllItems in email-center/model" />
-        <item itemvalue="Go Test.Test_SituationFormGetAllItems in email-center/model" />
-        <item itemvalue="Go Test.Test_Estimate in email-center/center (2)" />
-        <item itemvalue="Go Build.go build email-center" />
+        <item itemvalue="Go Test.TestDirty_DelItemByID in email-center/model" />
+        <item itemvalue="Go Test.TestDirty_SearchItemsByIdx in email-center/model" />
+        <item itemvalue="Go Test.TestDirty_GetItemsCount in email-center/model" />
+        <item itemvalue="Go Test.TestDirty_GetItemsByPage in email-center/model" />
+        <item itemvalue="Go Test.TestDirty_GetAllItemsGetAllItems in email-center/model" />
       </list>
     </recent_temporary>
   </component>

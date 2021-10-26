@@ -34,8 +34,8 @@ func (t Body) TableName() string {
 
 //GetAllItems ...i
 func (t Body) GetAllItems() ([]*Body, error) {
-	var items []*Body //.Where("is_identify=0").Where("is_identify=0"). Where("id=37")
-	err := utils.GetMysqlClient().Where("valid_calculate != valid_manual").Find(&items)
+	var items []*Body //.Where("is_identify=0").Where("is_identify=0").Where("id=37")
+	err := utils.GetMysqlClient().Where("valid_calculate != valid_manual").Where("id=443").Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
 		return nil, err

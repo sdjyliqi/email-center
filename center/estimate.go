@@ -66,7 +66,6 @@ func (e Estimate) AmendSubjectForCategory(content string) string {
 		}
 		amendChars = append(amendChars, v)
 	}
-	fmt.Println("===9999===", string(amendChars))
 	newSubject := string(amendChars)
 	for _, v := range e.assistCharacter {
 		newSubject = strings.ReplaceAll(newSubject, v, "")
@@ -127,7 +126,6 @@ func (e Estimate) AmendBody(content string) string {
 	newContent := string(amendChars)
 	for _, v := range e.amendCharacters {
 		newContent = strings.ReplaceAll(newContent, v.Raw, v.Replace)
-		fmt.Println(v.Raw, v.Replace, newContent)
 	}
 	for _, v := range e.assistCharacter {
 		newContent = strings.ReplaceAll(newContent, v, "")
@@ -175,13 +173,12 @@ func (e Estimate) AuditEmailLegality(eml *model.Body, amendSubject, subjectTag s
 //AuditBillEmail ...基于解析内容判断邮件是否合法
 func (e Estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag string) utils.LegalTag {
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
-	fmt.Println("============AuditBillEmail============")
 	senderDomain := utils.GetSenderDomain(eml.From)
 	v, ok := e.domainBillWhite[senderDomain]
+	fmt.Println("===========++++1025+++++===========", v, ok)
 	if ok {
 		return v
 	}
-	fmt.Println("============AuditBillEmail======111======")
 	//步骤2：通过标题中识别关键字，如果subjectTag不为空，判断通过关键字是否可以确定其为异常
 	if subjectTag != "" {
 		val, ok := utils.TagBillProperty[subjectTag]
@@ -201,8 +198,9 @@ func (e Estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 	//步骤4：提取微信号和QQ号,识别前需要做内容做修正，如提出空格，各类括号等内容。
 	vxIDs := utils.GetVX(amendSubject + amendContent)
 	qqIDs := utils.GetQQ(amendSubject + amendContent)
-	fmt.Println("====", vxIDs, qqIDs)
-	if len(vxIDs) > 0 || len(qqIDs) > 0 {
+	phoneIDs, _ := utils.ExtractMobilePhone(amendSubject + amendContent)
+	fmt.Println("====", vxIDs, qqIDs, phoneIDs)
+	if len(vxIDs) > 0 || len(qqIDs) > 0 || len(phoneIDs) > 0 {
 		return utils.InvalidTag
 	}
 	//第5步骤：body直接已某些关键字为开头的，直接判断为合法
@@ -223,7 +221,7 @@ func (e Estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 	if partition == utils.BillCategory && utils.TagBillProperty[tag] == utils.InvalidTag {
 		return utils.InvalidTag
 	}
-	return utils.ValidTag
+	return utils.UnknownTag
 }
 
 //AuditAdvEmail ...判断广告类邮件是否合法

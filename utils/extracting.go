@@ -7,6 +7,8 @@ import (
 	"unicode"
 )
 
+//ExtractMPhone ..提取手机号
+
 //GetSenderDomain ...获取发件者的域名信息 customer_service@jd.com
 //处理步骤大致如下，先抽取@符号后面的内容，然后在获取com之前的，然后用.进行分割，取后面的
 //bitjsj@bit.edu.cn

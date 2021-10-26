@@ -53,6 +53,8 @@ var TagADProperty = map[string]LegalTag{
 	"可定制内训":  InvalidTag,
 	"内训请详询":  InvalidTag,
 	"開催":     InvalidTag,
+	"代办发票":   InvalidTag,
+	"开各地正规":  InvalidTag,
 	"公開":     InvalidTag,
 	"優惠":     InvalidTag,
 	"优惠":     InvalidTag,

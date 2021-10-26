@@ -9,9 +9,9 @@ import (
 //GetPartition ...
 func GetPartition(c *gin.Context) {
 	result := map[string]int{}
-	items, err := model.SituationForm{}.GetAllItems()
+	items, err := model.SituationFormModel.GetAllItems()
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": err.Error(), "data": nil})
+		c.JSON(http.StatusInternalServerError, gin.H{"code": 1, "msg": err.Error(), "data": nil})
 		return
 	}
 	for _, v := range items {
@@ -20,12 +20,22 @@ func GetPartition(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "succ", "data": result})
 }
 
+//GetHours ...
+func GetHours(c *gin.Context) {
+	items, err := model.SituationHoursModel.GetAllItems()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"code": 1, "msg": err.Error(), "data": nil})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "succ", "data": items})
+}
+
 //GetTopSender ...
 func GetTopSender(c *gin.Context) {
 	idx := "sender"
-	items, err := model.SituationTop{}.GetAllItems(idx)
+	items, err := model.SituationTopModel.GetAllItems(idx)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": err.Error(), "data": nil})
+		c.JSON(http.StatusInternalServerError, gin.H{"code": 1, "msg": err.Error(), "data": nil})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "succ", "data": items})
@@ -36,7 +46,7 @@ func GetTopDepartment(c *gin.Context) {
 	idx := "department"
 	items, err := model.SituationTop{}.GetAllItems(idx)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": err.Error(), "data": nil})
+		c.JSON(http.StatusInternalServerError, gin.H{"code": 1, "msg": err.Error(), "data": nil})
 		return
 	}
 
@@ -48,7 +58,7 @@ func GetPeriod(c *gin.Context) {
 	result := map[string][]*model.SituationPeriod{}
 	items, err := model.SituationPeriod{}.GetAllItems(30)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": err.Error(), "data": nil})
+		c.JSON(http.StatusInternalServerError, gin.H{"code": 1, "msg": err.Error(), "data": nil})
 		return
 	}
 	for _, v := range items {
