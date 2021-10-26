@@ -24,7 +24,7 @@ func (t SituationPeriod) TableName() string {
 //GetAllItems ...获取N天的数据。
 func (t SituationPeriod) GetAllItems(days int) ([]*SituationPeriod, error) {
 	var items []*SituationPeriod
-	err := utils.GetMysqlClient().OrderBy("event").Limit(days).Find(&items)
+	err := utils.GetMysqlClient().OrderBy("event").Where("event >?", utils.GetDaysAgo(days)).Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
 		return nil, err
