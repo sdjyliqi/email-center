@@ -83,6 +83,7 @@ func (t Dirty) UpdateItemByID(item *Dirty) error {
 	}
 	item.Id = 0
 	item.Category = "色情"
+	//修改色情分类
 	_, err := utils.GetMysqlClient().Insert(item)
 	if err != nil {
 		glog.Errorf("insert item %+v into table %s failed,err:%+v", *item, t.TableName(), err)
