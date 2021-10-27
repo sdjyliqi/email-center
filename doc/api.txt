@@ -24,9 +24,43 @@ uri：/email/trend/hours
 
 
 3：获取组成比例的趋势图
+uri:email/trend/amount
+请求方式：GET
+参数说明：无
+返回值说明：
+{"code":0,"data":[{"id":2,"event":"2021-10-11T00:00:00+08:00","abnormal":456,"amount":34921,"last_modified":"2021-10-22T00:00:00+08:00"},{"id":3,"event":"2021-10-12T00:00:00+08:00","abnormal":234,"amount":54921,"last_modified":"2021-10-22T00:00:00+08:00"},{"id":4,"event":"2021-10-13T00:00:00+08:00","abnormal":823,"amount":24921,"last_modified":"2021-10-22T00:00:00+08:00"},{"id":5,"event":"2021-10-14T00:00:00+08:00","abnormal":543,"amount":54980,"last_modified":"2021-10-26T00:00:00+08:00"},{"id":6,"event":"2021-10-15T00:00:00+08:00","abnormal":789,"amount":64921,"last_modified":"2021-10-26T00:00:00+08:00"},{"id":7,"event":"2021-10-16T00:00:00+08:00","abnormal":234,"amount":12349,"last_modified":"2021-10-27T00:00:00+08:00"},{"id":8,"event":"2021-10-17T00:00:00+08:00","abnormal":23,"amount":1764,"last_modified":"2021-10-27T00:00:00+08:00"},{"id":9,"event":"2021-10-18T00:00:00+08:00","abnormal":1235,"amount":5428,"last_modified":"2021-10-27T00:00:00+08:00"}],"msg":"succ"}
+
+
+4：获取邮件数量的统计图
 uri:/email/trend/period
 请求方式：GET
 参数说明：无
 返回值说明：
-{"code":0,"data":[{"event_day":"20211007","合计":613,"发票":500,"广告":100,"色情":13},{"event_day":"20211008","合计":532,"发票":387,"广告":98,"色情":47},{"event_day":"20211009","合计":331,"发票":197,"广告":107,"色情":27},{"event_day":"20211010","合计":741,"发票":632,"广告":76,"色情":33},{"event_day":"20211011","合计":491,"发票":387,"广告":87,"色情":17},{"event_day":"20211012","合计":587,"发票":349,"广告":219,"色情":19},{"event_day":"20211013","合计":499,"发票":289,"广告":180,"色情":30},{"event_day":"20211014","合计":396,"发票":232,"广告":132,"色情":32},{"event_day":"20211015","合计":741,"发票":487,"广告":227,"色情":27},{"event_day":"20211016","合计":455,"发票":320,"广告":123,"色情":12},{"event_day":"20211017","合计":792,"发票":543,"广告":231,"色情":18},{"event_day":"20211018","合计":531,"发票":432,"广告":87,"色情":12}],"msg":"succ"}
+
+
+5：获取敏感词列表
+uri:/email/operation/dirty
+请求方式：GET
+参数说明：page 整数，从0开始，页码id
+        entry 整数，一页数据的条数，非法情况下默认为20
+请求示例：/email/operation/dirty?page=2&entry=10
+返回值说明：
+{"code":0,"data":{"amount":857,"items:":[{"id":21,"word":"AV新资源","category":"色情"},{"id":22,"word":"AV资源","category":"色情"},{"id":36638,"word":"小姐","category":"色情"},{"id":36639,"word":"妓女","category":"色情"},{"id":36640,"word":"包夜","category":"色情"},{"id":36641,"word":"3P","category":"色情"},{"id":36644,"word":"狼友","category":"色情"},{"id":36645,"word":"技师","category":"色情"},{"id":36646,"word":"技師","category":"色情"},{"id":36647,"word":"推油","category":"色情"}]},"msg":"succ"}
+
+
+6：搜索敏感词列表
+uri:email/operation/searchdirty
+请求方式：GET
+参数说明：idx字符串，搜索词
+示例：email/operation/searchdirty?idx=sex
+
+返回值说明：
+{"code":0,"data":[{"id":37815,"word":"sexinsex","category":"色情"},{"id":68943,"word":"sex","category":"色情"}],"msg":"succ"}
+
+
+7：按照id删除敏感词
+uri:/email/operation/deldirty
+请求方式：GET
+参数说明：id 整数值，列表中敏感词的对应id
+示例：/email/operation/deldirty?id=99999
 

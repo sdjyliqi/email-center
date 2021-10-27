@@ -118,3 +118,13 @@ func GetPeriod(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "succ", "data": resultsWeb})
 }
+
+//GetEmailAmount ... 获取异常的分行组织机构
+func GetEmailAmount(c *gin.Context) {
+	items, err := model.SituationAmountModel.GetAllItems()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"code": 1, "msg": err.Error(), "data": nil})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "succ", "data": items})
+}
