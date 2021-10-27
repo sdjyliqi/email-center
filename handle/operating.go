@@ -94,4 +94,5 @@ func UpInsertDirtyWords(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"code": 1, "msg": "bind json failed."})
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "succ", "data": ""})
 }
