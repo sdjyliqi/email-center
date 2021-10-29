@@ -14,7 +14,7 @@ type engineResponse struct {
 
 var ErrArgs = engineResponse{
 	Code: 1,
-	Msg:  "输入的参数不能为空",
+	Msg:  "输入的参数不能为空，检查参数",
 	Data: nil,
 }
 
