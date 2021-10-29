@@ -5,12 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="http 接口">
-      <change afterPath="$PROJECT_DIR$/utils/days.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/days_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/engine/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/engine/pickup.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reader/reader.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reader/reader_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tryagain/cardid.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tryagain/personal_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/cardid.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/personal_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/api.txt" beforeDir="false" afterPath="$PROJECT_DIR$/doc/api.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handle/tranding.go" beforeDir="false" afterPath="$PROJECT_DIR$/handle/tranding.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/situation_period.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/situation_period.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,9 +50,8 @@
     <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/center/load_files.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/utils/reader.go" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../pkg/mod/github.com/!dusan!kasan/parsemail@v1.2.0/parsemail.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/center/load_files.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1vKU3e20djYeoIWMd20IZYLCqTK" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -69,18 +73,18 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/utils" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/engine" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
+    <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\gowork\email-center\engine" />
+      <recent name="E:\gowork\email-center" />
+      <recent name="E:\gowork\email-center\utils" />
       <recent name="D:\gowork\src\email-center\utils" />
       <recent name="D:\gowork\src\email-center\model" />
-      <recent name="D:\gowork\src\email-center\handle" />
-      <recent name="D:\gowork\src\email-center" />
-      <recent name="D:\gowork\src\email-center\testutils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\gowork\src\email-center\client" />
@@ -88,7 +92,7 @@
       <recent name="D:\gowork\src\email-center\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build email-center">
+  <component name="RunManager" selected="Go Build.go build email-center/engine">
     <configuration name="go build email-center" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$" />
@@ -96,6 +100,15 @@
       <package value="email-center" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build email-center/engine" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="email-center" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="email-center/engine" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/engine/main.go" />
       <method v="2" />
     </configuration>
     <configuration name="TestDirty_DelItemByID in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -108,18 +121,6 @@
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestDirty_DelItemByID\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestDirty_GetItemsCount in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/model" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="email-center/model" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestDirty_GetItemsCount\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestDirty_SearchItemsByIdx in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -148,11 +149,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build email-center/engine" />
         <item itemvalue="Go Build.go build email-center" />
         <item itemvalue="Go Test.Test_GetDaysAgo in email-center/utils" />
         <item itemvalue="Go Test.TestDirty_DelItemByID in email-center/model" />
         <item itemvalue="Go Test.TestDirty_SearchItemsByIdx in email-center/model" />
-        <item itemvalue="Go Test.TestDirty_GetItemsCount in email-center/model" />
       </list>
     </recent_temporary>
   </component>
