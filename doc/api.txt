@@ -45,7 +45,7 @@ uri:/email/operation/dirty
         entry 整数，一页数据的条数，非法情况下默认为20
 请求示例：/email/operation/dirty?page=2&entry=10
 返回值说明：
-{"code":0,"data":{"amount":857,"items:":[{"id":21,"word":"AV新资源","category":"色情"},{"id":22,"word":"AV资源","category":"色情"},{"id":36638,"word":"小姐","category":"色情"},{"id":36639,"word":"妓女","category":"色情"},{"id":36640,"word":"包夜","category":"色情"},{"id":36641,"word":"3P","category":"色情"},{"id":36644,"word":"狼友","category":"色情"},{"id":36645,"word":"技师","category":"色情"},{"id":36646,"word":"技師","category":"色情"},{"id":36647,"word":"推油","category":"色情"}]},"msg":"succ"}
+{"code":0,"data":{"amount":857,"items":[{"id":21,"word":"AV新资源","category":"色情"},{"id":22,"word":"AV资源","category":"色情"},{"id":36638,"word":"小姐","category":"色情"},{"id":36639,"word":"妓女","category":"色情"},{"id":36640,"word":"包夜","category":"色情"},{"id":36641,"word":"3P","category":"色情"},{"id":36644,"word":"狼友","category":"色情"},{"id":36645,"word":"技师","category":"色情"},{"id":36646,"word":"技師","category":"色情"},{"id":36647,"word":"推油","category":"色情"}]},"msg":"succ"}
 
 
 6：搜索敏感词列表

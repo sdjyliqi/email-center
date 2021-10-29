@@ -42,7 +42,7 @@ func GetDirtyWords(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"code": 1, "msg": err.Error(), "data": nil})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "succ", "data": gin.H{"items:": items, "amount": cnt}})
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "succ", "data": gin.H{"items": items, "amount": cnt}})
 }
 
 //SearchDirtyWords ...
