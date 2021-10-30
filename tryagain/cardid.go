@@ -178,10 +178,3 @@ func ExtractMobilePhoneDs(txt string) []string {
 	}
 	return phoneIDs
 }
-
-//从里面抽离地址信息
-func ExtractAddr(txt string) []string {
-	//
-
-	return nil
-}

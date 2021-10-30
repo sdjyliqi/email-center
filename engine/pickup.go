@@ -26,11 +26,18 @@ func pickupOnFile(f string) (map[string]int, error) {
 		return nil, err
 	}
 	//识别内容中的身份证号
-	cardIDs := tryagain.ExtractCardIDs(string(content))
-	phoneIDs, _ := utils.ExtractMobilePhone(string(content))
+	strContent := string(content)
+	cardIDs := tryagain.ExtractCardIDs(strContent)
+	phoneIDs, _ := utils.ExtractMobilePhone(strContent)
+	addrInfos := tryagain.PickAddr(strContent)
+	fixPhoneIDs := tryagain.PickTelephone(strContent)
+	bankIDs := tryagain.PickBankCard(strContent)
 	result := map[string]int{
 		"card":  len(cardIDs),
 		"phone": len(phoneIDs),
+		"addr":  len(addrInfos),
+		"fix":   len(fixPhoneIDs),
+		"bank":  len(bankIDs),
 	}
 	return result, nil
 }
