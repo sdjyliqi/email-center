@@ -43,7 +43,7 @@ func (t Amend) GetItemsByPage(pageID, entry int) ([]*Amend, error) {
 
 //GetItemsCount...  获取数量
 func (t Amend) GetItemsCount() (int64, error) {
-	cnt, err := utils.GetMysqlClient().Count(&Dirty{})
+	cnt, err := utils.GetMysqlClient().Count(&Amend{})
 	if err != nil {
 		glog.Errorf("Get amount of items from %s failed,err:%+v", t.TableName(), err)
 		return 0, err

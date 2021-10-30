@@ -2,6 +2,7 @@ package model
 
 import (
 	"email-center/utils"
+	"fmt"
 	"github.com/golang/glog"
 	"time"
 )
@@ -54,7 +55,10 @@ func (t AssistCharacter) GetItemsCount() (int64, error) {
 //SearchItemsByIdx...  pageID页面从0开始
 func (t AssistCharacter) SearchItemsByIdx(idx string) ([]*AssistCharacter, error) {
 	var items []*AssistCharacter
-	err := utils.GetMysqlClient().Where(" character like ?", "%"+idx+"%").Find(&items)
+	utils.GetMysqlClient().ShowSQL(true)
+	condition := fmt.Sprintf("`character` like '%%%s%%'", idx)
+	fmt.Println(condition)
+	err := utils.GetMysqlClient().Where(condition).Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
 		return nil, err
