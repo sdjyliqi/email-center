@@ -313,19 +313,11 @@ func (e Estimate) AuditAllEmailItems() error {
 		return err
 	}
 	fmt.Println("待审计邮件的条数为：", cnt)
-	itemCount := int(cnt)
-	pageCount := 100
-	for idx := 0; idx < itemCount; idx = idx + pageCount {
-		pageCount := 100
-		if pageCount+idx > itemCount+1 {
-			pageCount = itemCount - idx
-		}
-		items, err := model.BodyModel.GetItemsByCondition(condition, idx, pageCount)
-		if err != nil {
-			return err
-		}
-		e.AuditAllEmailItemsByPage(items)
+	items, err := model.BodyModel.GetItemsByCondition(condition)
+	if err != nil {
+		return err
 	}
+	e.AuditAllEmailItemsByPage(items)
 	return nil
 }
 

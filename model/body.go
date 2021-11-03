@@ -43,9 +43,10 @@ func (t Body) GetItemsCount(condition string) (int64, error) {
 	return cnt, nil
 }
 
-func (t Body) GetItemsByCondition(condition string, start, cnt int) ([]*Body, error) {
+//todo 后续数据量打了 需要分配下载
+func (t Body) GetItemsByCondition(condition string) ([]*Body, error) {
 	var items []*Body
-	err := utils.GetMysqlClient().Where(condition).Limit(cnt, start).Find(&items)
+	err := utils.GetMysqlClient().Where(condition).Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
 		return nil, err
