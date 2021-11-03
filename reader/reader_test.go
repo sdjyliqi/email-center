@@ -1,22 +1,13 @@
 package reader
 
 import (
-	"github.com/stretchr/testify/assert"
+	"fmt"
 	"testing"
 )
 
-func Test_ReadExcel(t *testing.T) {
-	var reader FileReader
-	content, err := reader.ReadExcel("")
-	assert.Nil(t, err)
-	t.Log(content)
-}
-
 func Test_ReadPDF(t *testing.T) {
-	var reader FileReader
-	content, err := reader.ReadDoc("")
-	assert.Nil(t, err)
-	t.Log(content)
+	res, err := readPdf("E:\\gowork\\email-center\\doc\\test2222.pdf")
+	fmt.Println(res, err)
 }
 
 func Test_ReadPPT(t *testing.T) {

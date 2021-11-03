@@ -8,17 +8,19 @@ import (
 	"fmt"
 	"github.com/golang/glog"
 	"strings"
+	"time"
 )
 
-//判断维度是否是否为真假
+//Estimate ...判断维度是否是否为真假
 type Estimate struct {
 	assistCharacter []string //设置
 	amendCharacters []*model.Amend
 	domainBillWhite map[string]utils.LegalTag
 	domainADWhite   map[string]utils.LegalTag
+	amendDict       map[string]string
 }
 
-// CreateEstimate ... 创建一个鉴定实例
+//CreateEstimate ... 创建一个鉴定实例
 func CreateEstimate() (*Estimate, error) {
 	var characters []string
 	domainsForBill := map[string]utils.LegalTag{}
@@ -36,7 +38,6 @@ func CreateEstimate() (*Estimate, error) {
 	}
 	//初始化域名白名单，即合法数据
 	for _, v := range domainItems {
-		//todo 默认全部域名为发票类的白名单
 		domainsForBill[v.Official] = utils.ValidTag
 		if v.AllowAd == 1 {
 			domainsForAD[v.Official] = utils.ValidTag
@@ -48,12 +49,30 @@ func CreateEstimate() (*Estimate, error) {
 		return nil, err
 	}
 
+	//初始化一些AC自动机的内容
+	var replaceItems []string
+	amendDict := map[string]string{}
+	for _, v := range amendItems {
+		replaceItems = append(replaceItems, v.Raw)
+		amendDict[v.Raw] = v.Replace
+	}
+	ac.InitReplaceCharAC(replaceItems)
 	return &Estimate{
 		assistCharacter: characters,
 		amendCharacters: amendItems,
 		domainBillWhite: domainsForBill,
 		domainADWhite:   domainsForAD,
+		amendDict:       amendDict,
 	}, nil
+}
+
+func (e Estimate) ReplaceContentByAC(content string) string {
+	hitWords := ac.GetReplaceCharWords(content)
+	for _, v := range hitWords {
+		val, _ := e.amendDict[v]
+		content = strings.ReplaceAll(content, v, val)
+	}
+	return content
 }
 
 //AmendSubject ...修正标题,剔除一些无用的字符
@@ -124,14 +143,16 @@ func (e Estimate) AmendBody(content string) string {
 		amendChars = append(amendChars, v)
 	}
 	newContent := string(amendChars)
-	for _, v := range e.amendCharacters {
-		newContent = strings.ReplaceAll(newContent, v.Raw, v.Replace)
-	}
+	newContent = e.ReplaceContentByAC(newContent)
+
 	for _, v := range e.assistCharacter {
 		newContent = strings.ReplaceAll(newContent, v, "")
 	}
+	newContent = e.ReplaceContentByAC(newContent)
 	//修补一下如果是com的情况，可能已经被替换为c0m，需要重新替换一下
-	newContent = strings.ReplaceAll(newContent, "c0m", "com")
+	if strings.IndexAny(newContent, "c0m") > 0 {
+		newContent = strings.ReplaceAll(newContent, "c0m", "com")
+	}
 	return newContent
 }
 
@@ -175,7 +196,6 @@ func (e Estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 	//步骤1：通过发件者的邮件域名，如果白名单直接为合法
 	senderDomain := utils.GetSenderDomain(eml.From)
 	v, ok := e.domainBillWhite[senderDomain]
-	fmt.Println("===========++++1025+++++===========", v, ok)
 	if ok {
 		return v
 	}
@@ -187,11 +207,9 @@ func (e Estimate) AuditBillEmail(eml *model.Body, amendSubject, subjectTag strin
 		}
 	}
 	amendContent := amendSubject + e.AmendBody(eml.Body)
-	fmt.Println("+++++++++++++++++++++++++++++++++++++++++++", amendSubject)
 	amendContent, _ = e.AmendRemoveReceive(eml, amendContent)
 	//第3部：判断body中是否包括白名单数据，如jd.com 或者官方客服电话800-
 	whiteWords := ac.GetWhiteHighlights(amendContent) //使用原始数据，不要做修正
-	fmt.Println("============AuditBillEmail======2222======", amendContent, whiteWords)
 	if len(whiteWords) > 0 {
 		return utils.ValidTag
 	}
@@ -287,21 +305,43 @@ func (e Estimate) AuditDirtyEmail(b *model.Body, amendSubject, subjectTag string
 
 // AuditAllEmailItems  ...获取待鉴别邮件的分类
 func (e Estimate) AuditAllEmailItems() error {
-	items, err := model.BodyModel.GetAllItems()
+	fmt.Println("开始计算待审计的邮件内容")
+	fmt.Println(time.Now())
+	condition := " is_identify=0 "
+	cnt, err := model.BodyModel.GetItemsCount(condition)
 	if err != nil {
-		return nil
+		return err
 	}
+	fmt.Println("待审计邮件的条数为：", cnt)
+	itemCount := int(cnt)
+	pageCount := 100
+	for idx := 0; idx < itemCount; idx = idx + pageCount {
+		pageCount := 100
+		if pageCount+idx > itemCount+1 {
+			pageCount = itemCount - idx
+		}
+		items, err := model.BodyModel.GetItemsByCondition(condition, idx, pageCount)
+		if err != nil {
+			return err
+		}
+		e.AuditAllEmailItemsByPage(items)
+	}
+	return nil
+}
+
+// AuditAllEmailItems  ...获取待鉴别邮件的分类
+func (e Estimate) AuditAllEmailItemsByPage(items []*model.Body) error {
 	for _, v := range items {
+		fmt.Println("==========begin 处理：", v.Id)
 		v.Body = strings.ToLower(v.Body)
 		v.Subject = strings.ToLower(v.Subject)
 		v.Attachments = strings.ToLower(v.Attachments)
 		amendSubject := e.AmendSubjectForCategory(v.Subject)
-		fmt.Println("===========amendSubject=========", v.Subject, "======", amendSubject)
 		amendAttachments := e.AmendSubjectForCategory(v.Attachments)
 		//先计算其分类，然后更新到数据库中，后续可以比较了存入数据的分类是否和计算的分类一致。
 		partition, tag := e.GetCategory(amendSubject, amendAttachments, v.Body)
 		v.Partition = partition.Name()
-		err = model.BodyModel.UpdateItemCols(v, []string{"partition"})
+		err := model.BodyModel.UpdateItemCols(v, []string{"partition"})
 		if err != nil {
 			return err
 		}
@@ -312,7 +352,7 @@ func (e Estimate) AuditAllEmailItems() error {
 		if err != nil {
 			return err
 		}
-
 	}
+	fmt.Println(time.Now())
 	return nil
 }

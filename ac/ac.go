@@ -16,6 +16,7 @@ var ADBlackWordACMatch *ahocorasick.Matcher
 var DirtyWordACMatch *ahocorasick.Matcher
 
 var AddrAreaACMatch *ahocorasick.Matcher
+var ReplaceCharsACMatch *ahocorasick.Matcher
 
 var URLDomains = []string{"jd.com", "dangdang.com", "cebbank.com", "suning.com"}
 
@@ -29,6 +30,8 @@ var customerServiceWords = []string{}
 var dirtyWords = []string{}
 
 var CityNameWords = []string{}
+
+var ReplaceCharWords = []string{}
 
 //InitURLDomainAC ...初始化AC自动机
 //todo  如果不用直接删除
@@ -186,6 +189,23 @@ func GetAddrWords(content string) []string {
 	idxList := AddrAreaACMatch.Match(content)
 	for _, v := range idxList {
 		tag := CityNameWords[v]
+		words = append(words, tag)
+	}
+	return words
+}
+
+func InitReplaceCharAC(words []string) {
+	ReplaceCharWords = words
+	ReplaceCharsACMatch = ahocorasick.NewMatcher()
+	ReplaceCharsACMatch.Build(ReplaceCharWords)
+}
+
+//GetReplaceCharWords ... 利用AC需要替换的词
+func GetReplaceCharWords(content string) []string {
+	var words []string
+	idxList := ReplaceCharsACMatch.Match(content)
+	for _, v := range idxList {
+		tag := ReplaceCharWords[v]
 		words = append(words, tag)
 	}
 	return words

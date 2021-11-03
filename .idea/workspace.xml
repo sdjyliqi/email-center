@@ -4,18 +4,18 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="http 接口">
-      <change afterPath="$PROJECT_DIR$/engine/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/engine/pickup.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reader/reader.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reader/reader_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tryagain/cardid.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tryagain/personal_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/cardid.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/personal_test.go" afterDir="false" />
+    <list default="true" id="f1d11fa8-3a31-4548-9c2f-11070e6d3092" name="Default Changelist" comment="修改bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ac/ac.go" beforeDir="false" afterPath="$PROJECT_DIR$/ac/ac.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/center/estimate.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/center/estimate_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/center/estimate_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/body.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/body.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reader/reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/reader/reader.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reader/reader_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/reader/reader_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tryagain/personal_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/tryagain/personal_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/mysql.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main-1022" />
+        <entry key="$PROJECT_DIR$" value="main1029" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -73,18 +73,18 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/engine" />
+    <property name="last_opened_file_path" value="D:/gowork/src/known01" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="go.vgo" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.notifications" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\gowork\email-center\engine" />
-      <recent name="E:\gowork\email-center" />
+      <recent name="E:\gowork\email-center\data" />
+      <recent name="E:\gowork\email-center\tryagain" />
+      <recent name="E:\gowork\email-center\doc" />
+      <recent name="E:\gowork\email-center\handle" />
       <recent name="E:\gowork\email-center\utils" />
-      <recent name="D:\gowork\src\email-center\utils" />
-      <recent name="D:\gowork\src\email-center\model" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\gowork\src\email-center\client" />
@@ -92,7 +92,7 @@
       <recent name="D:\gowork\src\email-center\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build email-center/engine">
+  <component name="RunManager" selected="Go Build.go build email-center/client">
     <configuration name="go build email-center" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$" />
@@ -102,58 +102,58 @@
       <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="go build email-center/engine" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build email-center/client" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="email-center/engine" />
+      <package value="email-center/client" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/engine/main.go" />
+      <filePath value="$PROJECT_DIR$/client/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDirty_DelItemByID in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_Estimate in email-center/center" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/model" />
+      <working_directory value="$PROJECT_DIR$/center" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="email-center/model" />
+      <package value="email-center/center" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDirty_DelItemByID\E$" />
+      <pattern value="^\QTest_Estimate\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDirty_SearchItemsByIdx in email-center/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_GetNames in email-center/tryagain" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/model" />
+      <working_directory value="$PROJECT_DIR$/tryagain" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="email-center/model" />
+      <package value="email-center/tryagain" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDirty_SearchItemsByIdx\E$" />
+      <pattern value="^\QTest_GetNames\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_GetDaysAgo in email-center/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_ReadPDF in email-center/reader" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="email-center" />
-      <working_directory value="$PROJECT_DIR$/utils" />
+      <working_directory value="$PROJECT_DIR$/reader" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="email-center/utils" />
+      <package value="email-center/reader" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTest_GetDaysAgo\E$" />
+      <pattern value="^\QTest_ReadPDF\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build email-center/engine" />
+        <item itemvalue="Go Build.go build email-center/client" />
+        <item itemvalue="Go Test.Test_Estimate in email-center/center" />
         <item itemvalue="Go Build.go build email-center" />
-        <item itemvalue="Go Test.Test_GetDaysAgo in email-center/utils" />
-        <item itemvalue="Go Test.TestDirty_DelItemByID in email-center/model" />
-        <item itemvalue="Go Test.TestDirty_SearchItemsByIdx in email-center/model" />
+        <item itemvalue="Go Test.Test_GetNames in email-center/tryagain" />
+        <item itemvalue="Go Test.Test_ReadPDF in email-center/reader" />
       </list>
     </recent_temporary>
   </component>
@@ -174,13 +174,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="整理代码结构" />
-    <MESSAGE value="邮件自动审计" />
-    <MESSAGE value="提取qq  微信  发件者 域名" />
-    <MESSAGE value="优化数据解析 入库部分" />
-    <MESSAGE value="域名提取" />
-    <MESSAGE value="手机号提取" />
-    <MESSAGE value="优化 body 和from的识别" />
     <MESSAGE value="继续优化body" />
     <MESSAGE value="UT" />
     <MESSAGE value="判断邮件是否异常" />
@@ -199,7 +192,14 @@
     <MESSAGE value="色情-大小写" />
     <MESSAGE value="整体测试" />
     <MESSAGE value="http 接口" />
-    <option name="LAST_COMMIT_MESSAGE" value="http 接口" />
+    <MESSAGE value="reader" />
+    <MESSAGE value="参数检查" />
+    <MESSAGE value="bug 修改数据早点return" />
+    <MESSAGE value="增加识别维度信息" />
+    <MESSAGE value="增加辅助词和运营词的运维接口" />
+    <MESSAGE value="地址识别把空格 吃了" />
+    <MESSAGE value="修改bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改bug" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -229,7 +229,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/center/estimate_test.go</url>
-          <line>10</line>
+          <line>11</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

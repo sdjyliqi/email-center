@@ -33,9 +33,29 @@ func (t Body) TableName() string {
 }
 
 //GetAllItems ...i
+func (t Body) GetItemsCount(condition string) (int64, error) {
+	item := Body{}
+	cnt, err := utils.GetMysqlClient().Where(condition).Count(item)
+	if err != nil {
+		glog.Errorf("Get count by condition %s from %s failed,err:%+v", t.TableName(), condition, err)
+		return 0, err
+	}
+	return cnt, nil
+}
+
+func (t Body) GetItemsByCondition(condition string, start, cnt int) ([]*Body, error) {
+	var items []*Body
+	err := utils.GetMysqlClient().Where(condition).Limit(cnt, start).Find(&items)
+	if err != nil {
+		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
+		return nil, err
+	}
+	return items, nil
+}
+
 func (t Body) GetAllItems() ([]*Body, error) {
-	var items []*Body //.Where("is_identify=0").Where("is_identify=0").Where("id=37")
-	err := utils.GetMysqlClient().Where("valid_calculate != valid_manual").Where("id=443").Find(&items)
+	var items []*Body //.Where("is_identify=0").Where("is_identify=0").Where("id=37")Where("valid_calculate != valid_manual").Where("id=443")
+	err := utils.GetMysqlClient().Find(&items)
 	if err != nil {
 		glog.Errorf("Get items from %s failed,err:%+v", t.TableName(), err)
 		return nil, err

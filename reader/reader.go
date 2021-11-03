@@ -1,6 +1,9 @@
 package reader
 
 import (
+	"bytes"
+	"fmt"
+	"github.com/ledongthuc/pdf"
 	"io/ioutil"
 )
 
@@ -34,29 +37,33 @@ type FileReader struct {
 //	return content, nil
 //}
 //
-////ReadPDF ...读excel文件
-//func (fr FileReader) ReadPDF(path string) (string, error) {
-//	var content string
-//	//f, err := pdf.Open("D:\\gowork\\src\\known01\\data\\生产环境数据检查.pdf")
-//	//if err != nil {
-//	//	fmt.Println(err,f)
-//	//	return "",err
-//	//}
-//	return content, nil
-//}
-//
-////ReadPDF ...读excel文件
-//func (fr FileReader) ReadDoc(path string) (string, error) {
-//	var content string
-//	f, err := document.Open("D:\\gowork\\src\\known01\\data\\生产环境数据检查.docx")
-//	if err != nil {
-//		fmt.Println(err, f)
-//		return "", err
-//	}
-//	fmt.Println(f.MergeFields())
-//	fmt.Println(content)
-//	return content, nil
-//}
+
+func (fr FileReader) ReadTxtFromPdf(path string) (string, error) {
+	pdf.DebugOn = true
+	content, err := readPdf("E:\\gowork\\email-center\\doc\\test1030.pdf") // Read local pdf file
+	if err != nil {
+		return "", err
+	}
+	fmt.Println(content)
+	return content, nil
+}
+
+func readPdf(path string) (string, error) {
+	f, r, err := pdf.Open(path)
+	// remember close file
+	defer f.Close()
+	if err != nil {
+		return "", err
+	}
+	fmt.Println(r.NumPage())
+	var buf bytes.Buffer
+	b, err := r.GetPlainText()
+	if err != nil {
+		return "", err
+	}
+	buf.ReadFrom(b)
+	return buf.String(), nil
+}
 
 //ReadTxt ... reader txt file
 func (fr FileReader) ReadTxt(path string) ([]byte, error) {
