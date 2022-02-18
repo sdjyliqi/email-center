@@ -9,9 +9,11 @@ import (
 var DirtyModel Dirty
 
 type Dirty struct {
-	Id       int    `json:"id" xorm:"not null pk autoincr INT(11)"`
-	Word     string `json:"word" xorm:"not null unique CHAR(128)"`
-	Category string `json:"category" xorm:"default '' VARCHAR(128)"`
+	Id           int       `json:"id" xorm:"not null pk autoincr INT(11)"`
+	Word         string    `json:"word" xorm:"not null unique CHAR(128)"`
+	Category     string    `json:"category" xorm:"default '' VARCHAR(128)"`
+	LastModified time.Time `json:"last_modified" xorm:"DATETIME"`
+	Submit       string    `json:"submit" xorm:"CHAR(64)"`
 }
 
 //设置表的名称
