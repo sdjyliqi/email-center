@@ -15,6 +15,9 @@ var CustomerServiceACMatch *ahocorasick.Matcher
 var ADBlackWordACMatch *ahocorasick.Matcher
 var DirtyWordACMatch *ahocorasick.Matcher
 
+var AddrAreaACMatch *ahocorasick.Matcher
+var ReplaceCharsACMatch *ahocorasick.Matcher
+
 var URLDomains = []string{"jd.com", "dangdang.com", "cebbank.com", "suning.com"}
 
 //billCategoryWords ...广告相关分类的关键字
@@ -25,6 +28,10 @@ var AllCategoryWords = []string{}
 var HighlightsWords = []string{}
 var customerServiceWords = []string{}
 var dirtyWords = []string{}
+
+var CityNameWords = []string{}
+
+var ReplaceCharWords = []string{}
 
 //InitURLDomainAC ...初始化AC自动机
 //todo  如果不用直接删除
@@ -162,6 +169,43 @@ func GetDirtyWords(content string) []string {
 	idxList := DirtyWordACMatch.Match(content)
 	for _, v := range idxList {
 		tag := dirtyWords[v]
+		words = append(words, tag)
+	}
+	return words
+}
+
+//InitAddrWordsAC ...构建地理位置的AC
+func InitAddrWordsAC() {
+	for k := range utils.CityDict {
+		CityNameWords = append(CityNameWords, k)
+	}
+	AddrAreaACMatch = ahocorasick.NewMatcher()
+	AddrAreaACMatch.Build(CityNameWords)
+}
+
+//GetAddrWords ... 利用AC获取地址前缀
+func GetAddrWords(content string) []string {
+	var words []string
+	idxList := AddrAreaACMatch.Match(content)
+	for _, v := range idxList {
+		tag := CityNameWords[v]
+		words = append(words, tag)
+	}
+	return words
+}
+
+func InitReplaceCharAC(words []string) {
+	ReplaceCharWords = words
+	ReplaceCharsACMatch = ahocorasick.NewMatcher()
+	ReplaceCharsACMatch.Build(ReplaceCharWords)
+}
+
+//GetReplaceCharWords ... 利用AC需要替换的词
+func GetReplaceCharWords(content string) []string {
+	var words []string
+	idxList := ReplaceCharsACMatch.Match(content)
+	for _, v := range idxList {
+		tag := ReplaceCharWords[v]
 		words = append(words, tag)
 	}
 	return words

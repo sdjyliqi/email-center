@@ -82,6 +82,7 @@ func (t Dirty) UpdateItemByID(item *Dirty) error {
 			glog.Errorf("Update item %+v from %s failed,err:%+v", *item, t.TableName(), err)
 			return err
 		}
+		return nil
 	}
 	item.Id = 0
 	item.Category = "色情"

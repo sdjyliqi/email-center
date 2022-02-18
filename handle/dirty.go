@@ -85,13 +85,13 @@ func UpInsertDirtyWords(c *gin.Context) {
 	err := c.ShouldBindJSON(reqJson)
 	if err != nil {
 		glog.Errorf("The request %+v is invalid,please check.", c.Request)
-		c.JSON(http.StatusBadRequest, gin.H{"code": 1, "msg": "bind json failed."})
+		c.JSON(http.StatusBadRequest, gin.H{"code": 99999, "msg": "bind json failed."})
 		return
 	}
 	err = model.DirtyModel.UpdateItemByID(reqJson)
 	if err != nil {
 		glog.Errorf("The request %+v is invalid,please check.", c.Request)
-		c.JSON(http.StatusBadRequest, gin.H{"code": 1, "msg": "bind json failed."})
+		c.JSON(http.StatusBadRequest, gin.H{"code": 1, "msg": "update or insert failed." + err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "succ", "data": ""})
